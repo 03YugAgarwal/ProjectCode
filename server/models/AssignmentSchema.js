@@ -9,7 +9,7 @@ const testCaseSchema = mongoose.Schema({
         type: String,
         required: [true, "Please provide an output for test case"]
     }
-})
+});
 
 const questionSchema = mongoose.Schema({
     question: {
@@ -17,19 +17,18 @@ const questionSchema = mongoose.Schema({
         required: [true, "Please provide a question"]
     },
     testCaseNumber: {
-        type: number
+        type: Number,  
     },
     testCase: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'TestCase'
     }]
-
-})
+});
 
 const assignmentSchema = mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: [true, "Please provide a title for assignment"],
   },
   course: {
     type: String,
@@ -56,6 +55,6 @@ const assignmentSchema = mongoose.Schema({
 
 const Assignment = mongoose.model("Assignment", assignmentSchema);
 const Question = mongoose.model("Question", questionSchema);
-const TestCase = mongoose.model("TestCase",testCaseSchema)
+const TestCase = mongoose.model("TestCase", testCaseSchema);
 
-module.exports = {Assignment, Question, TestCase};
+module.exports = { Assignment, Question, TestCase };
