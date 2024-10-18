@@ -31,7 +31,8 @@ const assignmentSchema = mongoose.Schema({
     required: [true, "Please provide a title for assignment"],
   },
   course: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course',
     required: true,
   },
   type: {
