@@ -46,6 +46,16 @@ const assignmentSchema = mongoose.Schema({
     required: true,
     default: 1,
   },
+  createdOn: {
+    type: Date,
+    default: Date.now
+  },
+  StartBy: {
+    type: Date
+  },
+  SubmitBy: {
+    type: Date
+  },
   question: [
     {
       type: mongoose.Schema.Types.ObjectId,
