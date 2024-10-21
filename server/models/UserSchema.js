@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
-    TeacherID: {
+    RegisterNumber: {
         type: String,
         required: true
     },
