@@ -1,28 +1,23 @@
 const mongoose = require('mongoose')
 
-const courseSchema = mongoose.Schema({
-    Semester: {
+const userSchema = mongoose.Schema({
+    TeacherID: {
         type: String,
         required: true
     },
-    Title: {
+    Name: {
         type: String,
         required: true
     },
-    CourseID: {
+    Email: {
         type: String,
         required: true
     },
-    Faculty: {
+    Password: {
         type: String,
         required: true
-    },
-    isOver: {
-        type: Boolean,
-        default: false
     }
 })
 
-const Course = mongoose.model('Course',courseSchema)
-
-module.exports = {Course}
+const User = mongoose.model('User',userSchema)
+module.exports = {User}
