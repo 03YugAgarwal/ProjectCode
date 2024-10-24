@@ -1,11 +1,14 @@
 // import CodingHome from "./components/coding/CodingHome"
-import TeacherAssignmentForm from "./components/teacher/TeacherAssignmentForm"
+// import TeacherAssignmentForm from "./components/teacher/TeacherAssignmentForm"
+
+import Login from "./components/Login"
 
 function App() {
   return (
     <>
-      <TeacherAssignmentForm />
+      {/* <TeacherAssignmentForm /> */}
       {/* <CodingHome /> */}
+      <Login />
     </>
   )
 }

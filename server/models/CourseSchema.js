@@ -14,7 +14,8 @@ const courseSchema = mongoose.Schema({
         required: true
     },
     Faculty: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Teacher',
         required: true
     },
     isOver: {
