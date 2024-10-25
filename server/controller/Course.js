@@ -1,7 +1,7 @@
 const {Course} = require('../models/CourseSchema')
 const { Teacher } = require("../models/TeacherSchema");
 const {UserCourse} = require("../models/Map/UserCourse")
-
+const {User} = require('../models/UserSchema')
 
 const createCourse = async(req,res) => {
     try{
@@ -78,4 +78,46 @@ const assignStudentsToCourse = async(req,res) => {
     }
 }
 
-module.exports = {createCourse, getAllCourses,assignStudentsToCourse, assignedCourse}
+const getMyCourses = async(req,res) => {
+    try{
+        const userId = req.userId;
+        const user = await User.findOne({ _id: userId });
+        if (!user) {
+            return res.status(404).json({ error: "UserNotFound", message: "User not found" });
+        }
+        const userRegisterNumber = user.RegisterNumber;
+        const allUserCourseMap = await UserCourse.find();
+
+        let courseIds = [];
+        allUserCourseMap.forEach((usercourse) => {
+            if (usercourse.Users.includes(userRegisterNumber)) {
+                courseIds.push(usercourse.Course);
+            }
+        });
+
+        const courses = await Course.find({ _id: { $in: courseIds } })
+        let titles = []
+        courses.forEach((course)=>{
+            if(!course.isOver)
+                titles.push(course.Title)
+        })
+
+        res.status(200).json({Course: courses, Title: titles});
+        
+
+    }catch(error){
+        res.status(500).json({error: "Couldn'tGetCourses", message: "Error in fetching your courses",errorCatch: error.message})
+    }
+}
+
+const getCourseById = async (req,res) => {
+    try{
+        const CourseID = req.params.CourseID
+        const course = await Course.findOne({CourseID})
+        res.status(200).json(course)
+    }catch(error){
+        res.status(500).json({error: "Couldn'tGetCourse", message: "Error in fetching your course",errorCatch: error.message})
+    }
+}
+
+module.exports = {createCourse, getAllCourses,assignStudentsToCourse, assignedCourse, getMyCourses,getCourseById}
