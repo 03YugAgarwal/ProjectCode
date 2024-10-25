@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const userSchema = mongoose.Schema({
     RegisterNumber: {
         type: String,
-        required: true
     },
     Name: {
         type: String,

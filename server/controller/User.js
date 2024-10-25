@@ -1,5 +1,4 @@
 require("dotenv").config();
-const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -112,6 +111,7 @@ const loginUser = async (req, res) => {
           error: "AuthFailed",
           message: "Authentication failed, check credentials",
         });
+        return
     }
     const token = jwt.sign({ userId: exists._id }, JWT_SECRET, {
       expiresIn: process.env.TOKEN_EXPIRE,

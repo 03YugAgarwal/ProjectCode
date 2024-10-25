@@ -5,8 +5,9 @@ const teacherSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    Name: {
-        type: String,
+    User: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true
     }
 })

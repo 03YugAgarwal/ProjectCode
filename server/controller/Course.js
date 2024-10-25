@@ -14,7 +14,7 @@ const createCourse = async(req,res) => {
             return
         }
 
-        const newCourse = Course.save(Semester,Title,CourseID,Faculty)
+        const newCourse = Course.create(Semester,Title,CourseID,Faculty)
         
         res.status(200).json(newCourse)
         
