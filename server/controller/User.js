@@ -10,7 +10,10 @@ const saltRounds = 10;
 const getUser = async (req, res) => {
   try {
     const Users = await User.find();
-    res.json(Users).status(200);
+
+    const UserIDs = Users.map((User) => User.RegisterNumber)
+
+    res.status(200).json({UserCount: Users.length,UserIDs});
   } catch (error) {
     res.status(500).json({ error: "NoUser", message: "No Users found" });
   }

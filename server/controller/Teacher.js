@@ -15,7 +15,10 @@ const getAllTeachers = async (req, res) => {
       res.status(200).json({});
       return;
     }
-    res.status(200).json(teacher);
+
+    TeacherIDs = teacher.map((teacher)=> teacher.TeacherID)
+
+    res.status(200).json({TotalTeachers: teacher.length, TeacherIDs });
   } catch (error) {
     res
       .status(500)
@@ -34,7 +37,8 @@ const createTeacher = async (req, res) => {
       return;
     }
     const hashPassword = await bcrypt.hash(Password, saltRounds);
-    const newUser = await User.create({ Name, Email, Password: hashPassword });
+    let teacherRegisterNumber = 'T-'+TeacherID
+    const newUser = await User.create({ RegisterNumber: teacherRegisterNumber,Name, Email, Password: hashPassword });
     const newTeacher = await Teacher.create({ TeacherID, User: newUser._id });
 
     res.status(200).json(newTeacher);
