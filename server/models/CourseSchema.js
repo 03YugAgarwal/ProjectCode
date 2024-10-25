@@ -11,6 +11,7 @@ const courseSchema = mongoose.Schema({
     },
     CourseID: {
         type: String,
+        unique: true,
         required: true
     },
     Faculty: {
