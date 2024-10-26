@@ -1,6 +1,9 @@
+// import { useEffect } from "react";
 import AssignmentCard from "./Layout/AssignmentCard";
 
 const Home = () => {
+
+
   return (
     <>
       <select name="course" id="course">

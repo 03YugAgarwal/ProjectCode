@@ -2,10 +2,13 @@ require('dotenv').config()
 const connectDB = require("./database")
 const express = require('express')
 const app = express()
+const cors = require('cors');
 
 const verifyToken = require('./middleware/authMiddleware')
 
+// middleware
 app.use(express.json());
+app.use(cors());
 
 app.get('/',(req,res)=>{
     res.send('Hello World')
