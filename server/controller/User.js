@@ -116,7 +116,7 @@ const loginUser = async (req, res) => {
         });
         return
     }
-    const token = jwt.sign({ userId: exists._id }, JWT_SECRET, {
+    const token = jwt.sign({ role: 0 ,userId: exists._id }, JWT_SECRET, {
       expiresIn: process.env.TOKEN_EXPIRE,
     });
 

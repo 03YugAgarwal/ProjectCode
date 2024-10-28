@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
+import useAuth from "../hooks/useAuth";
+import {Link, useNavigate, useLocation} from 'react-router-dom'
 
 function validatePassword(password) {
   const uppercaseRegex = /[A-Z]/;
@@ -17,9 +19,16 @@ function validatePassword(password) {
 }
 
 const Login = () => {
+  const {setAuth} = useAuth()
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || '/'
+
   const [regno, setRegno] = useState("");
   const [password, setPassowrd] = useState("");
   const [isClicked, setIsClicked] = useState(false);
+
 
   const handleRegNoInput = (e) => {
     setRegno(e.target.value);
@@ -60,8 +69,10 @@ const Login = () => {
       const data = await response.json();
       
       if (data?.token) {
-        Cookies.set("user_token", data.token, { expires: 5 / 24 });
-        alert("Token set successfully!");
+        // Cookies.set("user_token", data.token, { expires: 5 / 24 });
+        const access_token = data.token
+        setAuth({RegisterNumber: regno, Password: password, access_token})
+        navigate(from, {replace: true})
       } else {
         alert("Login failed. Please check your credentials.");
       }

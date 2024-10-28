@@ -92,7 +92,7 @@ const loginTeacher = async (req, res) => {
         expiresIn: process.env.TOKEN_EXPIRE,
       });
   
-      res.status(200).json({ token });
+      res.status(200).json({ role: [0,1] ,token });
 
   } catch (error) {
     res.status(500).json({
