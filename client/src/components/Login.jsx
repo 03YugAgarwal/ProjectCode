@@ -1,48 +1,41 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
-import useAuth from "../hooks/useAuth";
-import {Link, useNavigate, useLocation} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import useTokenValidation from "../hooks/useTokenValidation";
 
 function validatePassword(password) {
   const uppercaseRegex = /[A-Z]/;
   const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
-  if (
+  return (
     password.length >= 8 &&
     uppercaseRegex.test(password) &&
     specialCharRegex.test(password)
-  ) {
-    return true;
-  } else {
-    return false;
-  }
+  );
 }
 
 const Login = () => {
-  const {setAuth} = useAuth()
-
-  const navigate = useNavigate()
-  const location = useLocation()
-  const from = location.state?.from?.pathname || '/'
+  const navigate = useNavigate();
 
   const [regno, setRegno] = useState("");
-  const [password, setPassowrd] = useState("");
+  const [password, setPassword] = useState("");
   const [isClicked, setIsClicked] = useState(false);
 
+  useTokenValidation()
 
   const handleRegNoInput = (e) => {
     setRegno(e.target.value);
   };
 
   const handlePasswordInput = (e) => {
-    setPassowrd(e.target.value);
+    setPassword(e.target.value); 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    setIsClicked(!isClicked);
-  
+    setIsClicked(true); 
+
+    // Uncomment validation logic if needed
     // if (regno.length === 0 || password.length === 0) {
     //   alert("Register Number and Password cannot be empty.");
     //   return;
@@ -51,12 +44,12 @@ const Login = () => {
     //   alert("Password must be at least 8 characters long, contain an uppercase letter, and a special character.");
     //   return;
     // }
-  
+
     const payload = {
       RegisterNumber: regno,
       Password: password,
     };
-  
+
     try {
       const response = await fetch("http://localhost:9000/user/login", {
         method: "POST",
@@ -65,29 +58,26 @@ const Login = () => {
           "Content-Type": "application/json",
         },
       });
-  
+
       const data = await response.json();
-      
+
       if (data?.token) {
-        // Cookies.set("user_token", data.token, { expires: 5 / 24 });
-        const access_token = data.token
-        setAuth({RegisterNumber: regno, Password: password, access_token})
-        navigate(from, {replace: true})
+        Cookies.set("user_token", data.token, { sameSite: 'None', secure: true, expires: 1 });
+        navigate("/");
       } else {
         alert("Login failed. Please check your credentials.");
       }
     } catch (error) {
       console.error("Error during login:", error);
     } finally {
-      setIsClicked(!isClicked);
+      setIsClicked(false); 
     }
   };
-  
 
   return (
     <>
-      <form action="">
-        <label htmlFor="">Registeration Number</label>
+      <form>
+        <label htmlFor="">Registration Number</label>
         <input
           type="text"
           placeholder="XYBCEABCD"
@@ -96,7 +86,7 @@ const Login = () => {
         />
         <label htmlFor="">Password</label>
         <input
-          type="passaword"
+          type="password" 
           value={password}
           onChange={handlePasswordInput}
         />

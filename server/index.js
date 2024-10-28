@@ -22,6 +22,8 @@ const CourseRoute = require('./routes/CourseRoute')
 app.use('/course',verifyToken, CourseRoute)
 const TeacherRoute = require('./routes/TeacherRoute')
 app.use('/teacher',TeacherRoute)
+const ValidateRoute = require('./routes/ValidateRoute')
+app.use('/validate',ValidateRoute)
 
 app.listen(process.env.PORT || 3000, ()=>{
     console.log(`Server started on http://localhost:${process.env.PORT || 3000}`);
