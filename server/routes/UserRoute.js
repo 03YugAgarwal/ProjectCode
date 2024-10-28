@@ -1,11 +1,17 @@
 const express = require("express");
 const router = express.Router();
 
-const {getUser, getOneUser ,createUser,loginUser} = require('../controller/User')
+const verifyToken = require("../middleware/authMiddleware");
+const {
+  getUser,
+  getOneUser,
+  createUser,
+  loginUser,
+} = require("../controller/User");
 
-router.get('/',getUser)
-router.post('/one',getOneUser) // change logic to get
-router.post('/create',createUser)
-router.post('/login',loginUser)
+router.get("/", verifyToken, getUser);
+router.post("/one", verifyToken, getOneUser); // change logic to get
+router.post("/create", verifyToken, createUser);
+router.post("/login", loginUser);
 
-module.exports = router
+module.exports = router;
