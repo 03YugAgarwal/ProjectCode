@@ -120,7 +120,7 @@ const loginUser = async (req, res) => {
       expiresIn: process.env.TOKEN_EXPIRE,
     });
 
-    res.status(200).json({ role: 0, token });
+    res.status(200).json({ role: [0], token });
 
   } catch (error) {
     console.error("Error in Login User:", error);
