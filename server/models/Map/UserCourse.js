@@ -7,6 +7,12 @@ const userCourseSchema = mongoose.Schema({
       required: true,
     },
   ],
+  Teachers: [
+    {
+      type: String,
+      required: true
+    }
+  ],
   Course: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",

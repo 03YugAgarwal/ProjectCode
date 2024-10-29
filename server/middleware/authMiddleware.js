@@ -1,5 +1,5 @@
-const User = require('../models/UserSchema');
-const TeacherModel = require('../models/TeacherSchema'); 
+const User = require("../models/UserSchema");
+const Teacher = require("../models/TeacherSchema");
 const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -10,17 +10,18 @@ async function verifyToken(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    const teacher = await TeacherModel.findOne({ _id: decoded.userId });
+    const teacher = await Teacher.findById(decoded.userId);
+
     if (teacher) {
-      req.role = [0, 1]; 
+      req.role = [0, 1];
     } else {
-      req.role = [0]; 
+      req.role = [0];
     }
 
     req.userId = decoded.userId;
     next();
   } catch (error) {
-    res.status(401).json({ error: "Invalid token" });
+    res.status(401).json({ error: "Invalid token", errorCatch: error.message });
   }
 }
 

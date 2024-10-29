@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { User } = require("../models/UserSchema");
-const { Teacher } = require("../models/TeacherSchema");
+const Teacher  = require("../models/TeacherSchema");
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -88,7 +88,7 @@ const loginTeacher = async (req, res) => {
       return
     }
 
-    const token = jwt.sign({ TeacherID: existsTeacher._id }, JWT_SECRET, {
+    const token = jwt.sign({ userId: existsTeacher._id }, JWT_SECRET, {
         expiresIn: process.env.TOKEN_EXPIRE,
       });
   

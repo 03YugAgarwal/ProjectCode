@@ -1,28 +1,30 @@
 const mongoose = require("mongoose");
 
 const testCaseSchema = mongoose.Schema({
-    input: {
-        type: String,
-        required: [true, "Please provide an input for test case"]
-    },
-    output: {
-        type: String,
-        required: [true, "Please provide an output for test case"]
-    }
+  input: {
+    type: String,
+    required: [true, "Please provide an input for test case"],
+  },
+  output: {
+    type: String,
+    required: [true, "Please provide an output for test case"],
+  },
 });
 
 const questionSchema = mongoose.Schema({
-    question: {
-        type: String,
-        required: [true, "Please provide a question"]
+  question: {
+    type: String,
+    required: [true, "Please provide a question"],
+  },
+  testCaseNumber: {
+    type: Number,
+  },
+  testCase: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "TestCase",
     },
-    testCaseNumber: {
-        type: Number,  
-    },
-    testCase: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'TestCase'
-    }]
+  ],
 });
 
 const assignmentSchema = mongoose.Schema({
@@ -32,12 +34,12 @@ const assignmentSchema = mongoose.Schema({
   },
   course: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Course',
+    ref: "Course",
     required: true,
+    index: true, 
   },
   type: {
     type: String,
-    enum: ["LabWork", "HomeWork"],
     required: true,
     default: "LabWork",
   },
@@ -48,21 +50,46 @@ const assignmentSchema = mongoose.Schema({
   },
   createdOn: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    index: true,
   },
-  StartBy: {
-    type: Date
+  startBy: {  
+    type: Date,
   },
-  SubmitBy: {
-    type: Date
+  submitBy: { 
+    type: Date,
   },
   question: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Question",
+      number: {
+        type: Number,
+        required: true,
+      },
+      question: {
+        type: String,
+        required: true,
+      },
+      numberOfTestCases: {
+        type: Number,
+        default: 0,
+        required: true,
+      },
+      testCases: [
+        {
+          input: {
+            type: String,
+            required: true,
+          },
+          output: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
     },
   ],
 });
+
 
 const Assignment = mongoose.model("Assignment", assignmentSchema);
 const Question = mongoose.model("Question", questionSchema);

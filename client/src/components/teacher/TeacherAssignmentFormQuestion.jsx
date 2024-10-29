@@ -4,6 +4,7 @@ const TeacherAssignmentFormQuestion = ({ numberOfQuestions, onQuestionsChange })
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
+    // Generate initial questions only when `numberOfQuestions` changes
     const initialQuestions = Array.from({ length: numberOfQuestions }, (_, i) => ({
       number: i + 1,
       question: "",
@@ -14,6 +15,7 @@ const TeacherAssignmentFormQuestion = ({ numberOfQuestions, onQuestionsChange })
   }, [numberOfQuestions]);
 
   useEffect(() => {
+    // Call `onQuestionsChange` only when `questions` array changes
     onQuestionsChange(questions);
   }, [questions, onQuestionsChange]);
 

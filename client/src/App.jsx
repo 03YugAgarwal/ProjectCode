@@ -1,5 +1,5 @@
 import CodingHome from "./components/coding/CodingHome";
-// import TeacherAssignmentForm from "./components/teacher/TeacherAssignmentForm"
+import TeacherAssignmentForm from "./components/teacher/TeacherAssignmentForm"
 import Login from "./components/Login";
 import Home from "./components/Home";
 
@@ -23,6 +23,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/login", element: <Login /> },
       { path: "/unauthorized", element: <Unauthorized /> },
+      { path: "/create", element: <TeacherAssignmentForm /> },
     ],
   },
   // {

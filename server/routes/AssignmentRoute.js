@@ -1,8 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
-const { getAssignmentForStudent } = require("../controller/Assignment");
+const {
+  getAssignmentForStudentByID,
+  getAssignmentForStudentByCourseID,
+  createAssignment,
+  getAssignmentById
+} = require("../controller/Assignment");
 
-router.get("/:courseid", getAssignmentForStudent);
+router.get("/:id", getAssignmentForStudentByID);
+router.get("/course/:id", getAssignmentForStudentByCourseID);
+router.post("/create", createAssignment);
+router.get("/assignment/:id", getAssignmentById);
 
 module.exports = router;
