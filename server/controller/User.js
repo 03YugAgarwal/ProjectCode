@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const { User } = require("../models/UserSchema");
+const Teacher = require("../models/TeacherSchema");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const saltRounds = 10;
@@ -95,7 +96,29 @@ const loginUser = async (req, res) => {
       return;
     }
 
+    const teacher = await Teacher.findOne({TeacherID: RegisterNumber})
+    
+
     const exists = await User.findOne({ RegisterNumber });
+
+    if(teacher){
+      const user = await User.findById(teacher.User)
+      const passwordMatch = await bcrypt.compare(Password, user.Password);
+      if (!passwordMatch) {
+        res
+          .status(401)
+          .json({
+            error: "AuthFailed",
+            message: "Authentication failed, check credentials",
+          });
+          return
+      }
+      const token = jwt.sign({userId: user._id }, JWT_SECRET, {
+        expiresIn: process.env.TOKEN_EXPIRE,
+      });
+      return res.status(200).json({role: [0,1], token})
+    }
+    
     if (!exists) {
       res
         .status(401)
@@ -119,8 +142,9 @@ const loginUser = async (req, res) => {
     const token = jwt.sign({userId: exists._id }, JWT_SECRET, {
       expiresIn: process.env.TOKEN_EXPIRE,
     });
-
+    
     res.status(200).json({ role: [0], token });
+
 
   } catch (error) {
     console.error("Error in Login User:", error);

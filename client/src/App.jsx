@@ -1,5 +1,5 @@
 import CodingHome from "./components/coding/CodingHome";
-import TeacherAssignmentForm from "./components/teacher/TeacherAssignmentForm"
+import TeacherAssignmentForm from "./components/teacher/TeacherAssignmentForm";
 import Login from "./components/Login";
 import Home from "./components/Home";
 
@@ -9,7 +9,6 @@ import ErrorPage from "./components/page/ErrorPage";
 import Unauthorized from "./components/page/Unauthorized";
 import RestrictedStudent from "./components/Layout/RestrictedStudent";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,17 +17,20 @@ const router = createBrowserRouter([
     children: [
       { path: "/login", element: <Login /> },
       {
-        element: <RestrictedStudent />, 
+        element: <RestrictedStudent />,
         children: [
           { path: "/", element: <Home /> },
           { path: "/unauthorized", element: <Unauthorized /> },
-        ]
+          { path: "/code", element: <CodingHome /> },
+          {path: "/create", element: <TeacherAssignmentForm />}
+        ],
       },
-      { path: "/create", element: <TeacherAssignmentForm /> },
+      // {
+      //   element: <RestricterTeacher />
+      // }
     ],
   },
 ]);
-
 
 function App() {
   return <RouterProvider router={router} />;

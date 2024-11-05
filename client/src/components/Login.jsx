@@ -22,7 +22,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isClicked, setIsClicked] = useState(false);
 
-
   const handleRegNoInput = (e) => {
     setRegno(e.target.value);
   };
@@ -34,16 +33,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsClicked(true);
-
-    // Uncomment validation logic if needed
-    // if (regno.length === 0 || password.length === 0) {
-    //   alert("Register Number and Password cannot be empty.");
-    //   return;
-    // }
-    // if (!validatePassword(password)) {
-    //   alert("Password must be at least 8 characters long, contain an uppercase letter, and a special character.");
-    //   return;
-    // }
 
     const payload = {
       RegisterNumber: regno,
@@ -60,11 +49,12 @@ const Login = () => {
       });
 
       const data = await response.json();
-
-      if (data?.token) {
-        Cookies.set("user_token", data.token, { sameSite: "None", secure: true, expires: 1 });
-        login();
-        navigate("/");
+      console.log(data);
+      
+      if (data?.token && data?.role) {
+        // Save token and role in AuthContext
+        login(data.token, data.role);
+        navigate("/"); // Redirect to home or appropriate route after login
       } else {
         alert("Login failed. Please check your credentials.");
       }

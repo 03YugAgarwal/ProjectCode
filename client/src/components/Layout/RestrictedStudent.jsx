@@ -8,16 +8,18 @@ const RestrictedStudent = () => {
 
   useEffect(() => {
     const validateSession = async () => {
-      await checkToken(); 
-      if (!isLoggedIn) {
+      const isValid = await checkToken(); 
+      if (!isValid) {
         navigate("/login"); 
       }
     };
 
     validateSession();
-  }, [isLoggedIn, navigate, checkToken]);
+  }, [navigate, checkToken]);
 
-  return isLoggedIn ? <Outlet /> : null;
+  let content = <p>Login to continue accessing the platform</p>
+
+  return isLoggedIn ? <Outlet /> : content;
 };
 
 export default RestrictedStudent;
