@@ -8,6 +8,7 @@ import RootLayout from "./components/Layout/RootLayout";
 import ErrorPage from "./components/page/ErrorPage";
 import Unauthorized from "./components/page/Unauthorized";
 import RestrictedStudent from "./components/Layout/RestrictedStudent";
+import RestrictedTeacher from "./components/Layout/RestrictedTeacher";
 
 const router = createBrowserRouter([
   {
@@ -22,12 +23,15 @@ const router = createBrowserRouter([
           { path: "/", element: <Home /> },
           { path: "/unauthorized", element: <Unauthorized /> },
           { path: "/code", element: <CodingHome /> },
-          {path: "/create", element: <TeacherAssignmentForm />}
         ],
       },
-      // {
-      //   element: <RestricterTeacher />
-      // }
+      {
+        element: <RestrictedTeacher />,
+        children: [
+          {path: "/create", element: <TeacherAssignmentForm />}
+          // {path: '/code', element}
+        ]
+      }
     ],
   },
 ]);

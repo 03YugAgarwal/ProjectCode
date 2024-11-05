@@ -9,7 +9,7 @@ async function ValidateToken(req, res) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    const teacher = await Teacher.findById(decoded.userId)
+    const teacher = await Teacher.findOne({User: decoded.userId})
     if(teacher){
       return res.status(200).json({role: [0,1]})
     }

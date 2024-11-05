@@ -43,12 +43,15 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (token, role) => {
+    
     Cookies.set("user_token", token, { sameSite: "None", secure: true, expires: 1 });
     setIsLoggedIn(true);
     setUserRole(role);
+    
   };
 
   const logout = () => {
+    
     Cookies.remove("user_token");
     setIsLoggedIn(false);
     setUserRole(null);
