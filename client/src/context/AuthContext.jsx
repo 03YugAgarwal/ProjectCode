@@ -1,6 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
+import {BASE_URL} from '../constants'
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -12,7 +14,7 @@ export const AuthProvider = ({ children }) => {
     if (!token) return false;
 
     try {
-      const response = await fetch("http://localhost:9000/validate", {
+      const response = await fetch(BASE_URL+'/validate', {
         method: "GET",
         headers: { Authorization: `${token}` },
       });

@@ -9,6 +9,8 @@ export const LANGUAGE_VERSIONS = {
     php: "8.2.3"
 }
 
+export const BASE_URL = 'http://localhost:9000'
+
 export const CODE_SNIPPETS = {
     python: `def greet(name):
     return f"Hello, {name}!"

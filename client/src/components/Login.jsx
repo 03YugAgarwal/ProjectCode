@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { BASE_URL } from "../constants";
 
 function validatePassword(password) {
   const uppercaseRegex = /[A-Z]/;
@@ -40,7 +41,7 @@ const Login = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:9000/user/login", {
+      const response = await fetch(BASE_URL+"/user/login", {
         method: "POST",
         body: JSON.stringify(payload),
         headers: {
@@ -49,12 +50,10 @@ const Login = () => {
       });
 
       const data = await response.json();
-      console.log(data);
       
       if (data?.token && data?.role) {
-        // Save token and role in AuthContext
         login(data.token, data.role);
-        navigate("/"); // Redirect to home or appropriate route after login
+        navigate("/"); 
       } else {
         alert("Login failed. Please check your credentials.");
       }
