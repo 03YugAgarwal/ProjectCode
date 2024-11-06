@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import AssignmentCard from "./Layout/AssignmentCard";
+import AssignmentCard from "../Layout/AssignmentCard";
 import Cookies from "js-cookie";
-import {BASE_URL} from '../constants'
+import {BASE_URL} from '../../constants'
 
-const Home = () => {
+const StudentHome = () => {
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [assignments, setAssignments] = useState([]);
@@ -118,4 +118,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default StudentHome;

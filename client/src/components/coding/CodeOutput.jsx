@@ -4,11 +4,14 @@ import { executeCode } from "../../api"
 
 const SAMPLE_INPUT = "* * * * \n* * * * \n* * * * \n* * * * \n"
 
-const CodeOutput = ({editorRef,language}) => {
+const CodeOutput = ({editorRef,language, data}) => {
   
     const [output,setOutput] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [passed, setPassed] = useState(false)
+
+    console.log(data);
+    
 
     const onCode = async () => {
         const code = editorRef.current.getValue()
@@ -21,7 +24,6 @@ const CodeOutput = ({editorRef,language}) => {
             if(result.output == SAMPLE_INPUT){
                 setPassed(true)
             }
-            console.log(result);
             
         }catch(error){
             console.error(error)
@@ -41,9 +43,6 @@ const CodeOutput = ({editorRef,language}) => {
                 })
                 : "Click Run Code to see the output here"
             }
-        </div>
-        <div>
-            {passed ? "passed" : "failed"}
         </div>
     </>
   )

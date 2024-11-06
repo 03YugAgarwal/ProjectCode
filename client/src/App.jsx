@@ -1,7 +1,7 @@
 import CodingHome from "./components/coding/CodingHome";
 import TeacherAssignmentForm from "./components/teacher/TeacherAssignmentForm";
 import Login from "./components/Login";
-import Home from "./components/Home";
+import Home from "./components/Home/Home";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./components/Layout/RootLayout";
@@ -9,6 +9,7 @@ import ErrorPage from "./components/page/ErrorPage";
 import Unauthorized from "./components/page/Unauthorized";
 import RestrictedStudent from "./components/Layout/RestrictedStudent";
 import RestrictedTeacher from "./components/Layout/RestrictedTeacher";
+import Assignment from "./components/coding/Assignment";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
         children: [
           { path: "/", element: <Home /> },
           { path: "/unauthorized", element: <Unauthorized /> },
-          { path: "/code", element: <CodingHome /> },
+          { path: "/code/:assignmendid", element: <Assignment /> },
         ],
       },
       {

@@ -1,7 +1,15 @@
+import { useNavigate } from "react-router-dom"
+
 const AssignmentCard = ({assignment}) => {
   
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate(`/code/${assignment._id}`)
+  }
+
   return (
-    <div>
+    <div onClick={handleClick}>
         <h1>{assignment?.title}</h1>
         <h3>{assignment?.numberOfCodes}</h3>
         <h3>{assignment?.type}</h3>

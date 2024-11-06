@@ -4,7 +4,7 @@ import CodingLanguage from "./CodingLanguage";
 import { CODE_SNIPPETS } from "../../constants";
 import CodeOutput from "./CodeOutput";
 
-const CodingEditor = () => {
+const CodingEditor = ({data}) => {
   const editorRef = useRef();
   const [code, setCode] = useState(CODE_SNIPPETS["python"]);
   const [language,setLanguage] = useState("python")
@@ -30,7 +30,7 @@ const CodingEditor = () => {
         value={code}
         onChange={(value) => setCode(value)}
       />
-      <CodeOutput editorRef={editorRef} language={language} />
+      <CodeOutput editorRef={editorRef} language={language} data={data}/>
     </>
   );
 };
