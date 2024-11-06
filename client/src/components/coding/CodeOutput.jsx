@@ -1,51 +1,79 @@
-import { useState } from "react"
-import { executeCode } from "../../api"
+import { useState } from "react";
+import { executeCode } from "../../api";
 
+const CodeOutput = ({ editorRef, language, data }) => {
+  const [output, setOutput] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [passedCount, setPassedCount] = useState(0);
 
-const SAMPLE_INPUT = "* * * * \n* * * * \n* * * * \n* * * * \n"
+  const onCode = async () => {
+    const code = editorRef.current.getValue();
+    if (!code) return;
 
-const CodeOutput = ({editorRef,language, data}) => {
-  
-    const [output,setOutput] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
-    const [passed, setPassed] = useState(false)
+    setIsLoading(true);
+    setOutput([]);
+    setPassedCount(0);
 
-    console.log(data);
-    
+    let newOutput = [];
+    let countPassed = 0;
 
-    const onCode = async () => {
-        const code = editorRef.current.getValue()
-        if(!code) return
-        try{
-            setIsLoading(true)
-            const {run: result} = await executeCode(language,code)
-            
-            setOutput(result.output.split("\n"))
-            if(result.output == SAMPLE_INPUT){
-                setPassed(true)
-            }
-            
-        }catch(error){
-            console.error(error)
-            setIsLoading(false)
+    try {
+      for (const testcase of data?.testCases || []) {
+        const { input, output: expectedOutput } = testcase;
+
+        const { run: result } = await executeCode(language, code, input);
+
+        const actualOutput = result.output.trim();
+        newOutput.push({ input, actualOutput, expectedOutput });
+        
+        if (actualOutput === expectedOutput.trim()) {
+          countPassed += 1;
         }
-    }
-  
-    return (
-    <>
-        <h3>Output</h3>
-        <button onClick={onCode}>Run Code</button>
-        <div>
-            {
-                output ? 
-                output.map((line,i)=>{
-                    return <div key={i}>{line}</div>
-                })
-                : "Click Run Code to see the output here"
-            }
-        </div>
-    </>
-  )
-}
+      }
 
-export default CodeOutput
+      setOutput(newOutput);
+      setPassedCount(countPassed);
+    } catch (error) {
+      console.error("Error executing code:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <h3>Output</h3>
+      <button onClick={onCode} disabled={isLoading}>
+        {isLoading ? "Running..." : "Run Code"}
+      </button>
+
+      <div>
+        {output.length > 0 ? (
+          output.map((result, i) => (
+            <div key={i}>
+              <p>Input: {result.input}</p>
+              <p>Expected Output: {result.expectedOutput}</p>
+              <p>Actual Output: {result.actualOutput}</p>
+              <p>
+                {result.actualOutput === result.expectedOutput
+                  ? "✅ Passed"
+                  : "❌ Failed"}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p>Click "Run Code" to see the output here.</p>
+        )}
+      </div>
+
+      <div>
+        <h3>Summary:</h3>
+        <p>
+          {passedCount} / {data?.testCases?.length || 0} test cases passed.
+        </p>
+      </div>
+    </>
+  );
+};
+
+export default CodeOutput;

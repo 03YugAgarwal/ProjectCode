@@ -15,7 +15,6 @@ const CodingHome = ({ data, questionNumber }) => {
       <p>Question Number: {data?.number}</p>
       <p>{data?.question}</p>
       <CodingEditor data={data} />
-      <p>Number of TestCases: {data?.numberOfTestCases}</p>
     </>
   );
 };
