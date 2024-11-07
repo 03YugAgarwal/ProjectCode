@@ -16,7 +16,7 @@ async function ValidateToken(req, res) {
       return res.status(200).json({role: [0,1,2]})
     }
 
-    const teacher = await Teacher.findOne({User: decoded.userId})
+    const teacher = await Teacher.findById(decoded.userId)
     if(teacher){
       return res.status(200).json({role: [0,1]})
     }

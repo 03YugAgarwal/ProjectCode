@@ -19,6 +19,7 @@ const getAssignmentForStudentByID = async (req, res) => {
         .json({ error: "NoCourseFound", message: "No such course found." });
     }
 
+    
     const user = await User.findById(req.userId);
     if (!user) {
       return res
@@ -126,6 +127,7 @@ const createAssignment = async (req, res) => {
       return res.status(400).json({
         error: "MissingFields",
         message: "Some required fields are missing values",
+        title,course,type,codes
       });
     }
 
@@ -141,8 +143,6 @@ const createAssignment = async (req, res) => {
     };
 
     const createdAssignment = await Assignment.create(data);
-
-    console.log(createdAssignment);
     res.status(201).json(createdAssignment);
 
   } catch (error) {
@@ -172,9 +172,57 @@ const getAssignmentById = async (req,res) => {
   }
 }
 
+const getAssignmentForTeacherByID = async (req,res) => {
+  try {
+    
+    const courses = await Course.find({ Faculty: req.userId });
+    if (!courses || courses.length === 0) {
+      return res.status(404).json({ message: "No assigned courses found" });
+    }
+
+    const courseIds = courses.map(course => course._id);
+
+    const assignments = await Assignment.find({ course: { $in: courseIds } });
+
+    if (!assignments || assignments.length === 0) {
+      return res.status(404).json({ message: "No assignments found for the assigned courses" });
+    }
+
+    res.status(200).json({
+      courses,
+      assignments,
+    });
+
+
+
+  }catch(error){
+    res.status(500).json({
+      error: "Couldn'tFind",
+      message: "Error in finding assignment",
+      errorCatch: error.message,
+    });
+  }
+}
+
+const getAssignmentForTeacherByAssignmentid = async(req,res) => {
+  try{
+    const {id} = req.params
+    const data = await Assignment.findById(id)
+    res.status(200).json(data)
+  }catch(error){
+    res.status(500).json({
+      error: "Couldn'tFind",
+      message: "Error in finding assignment",
+      errorCatch: error.message,
+    });
+  }
+}
+
 module.exports = {
   getAssignmentForStudentByID,
   getAssignmentForStudentByCourseID,
   createAssignment,
-  getAssignmentById
+  getAssignmentById,
+  getAssignmentForTeacherByID,
+  getAssignmentForTeacherByAssignmentid
 };

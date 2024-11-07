@@ -4,6 +4,7 @@ const Teacher  = require("../models/TeacherSchema");
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { Course } = require("../models/CourseSchema");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const saltRounds = 10;
@@ -116,4 +117,26 @@ const loginTeacher = async (req, res) => {
   }
 };
 
-module.exports = { getAllTeachers, createTeacher, loginTeacher };
+const getTeacherCourse = async (req,res) => {
+  try{
+    // console.log(req.userId);
+    
+    const Courses = await Course.find({Faculty: req.userId})
+
+    if(!Courses){
+      return res.status(404).json({message: "No assigned Courses found"})
+    }
+    // console.log(Courses);
+    
+
+    res.status(200).json({courses: Courses})
+  }catch(error){
+    return res.status(500).json({
+      error: "CoulldntFetch",
+      message: "Error in getting all courses assigned to you",
+      errorCatch: error.message()
+    })
+  }
+}
+
+module.exports = { getAllTeachers, createTeacher, loginTeacher, getTeacherCourse };

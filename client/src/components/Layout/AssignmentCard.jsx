@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom"
 
-const AssignmentCard = ({assignment}) => {
+const AssignmentCard = ({assignment, navigateLink}) => {
   
   const navigate = useNavigate()
 
   const handleClick = () => {
-    navigate(`/code/${assignment._id}`)
+    // navigate(`/code/${assignment._id}`)
+    navigate(navigateLink)
   }
 
   return (

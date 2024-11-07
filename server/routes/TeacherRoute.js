@@ -6,9 +6,11 @@ const {
   getAllTeachers,
   createTeacher,
   loginTeacher,
+  getTeacherCourse
 } = require("../controller/Teacher");
 
 router.get("/", verifyToken, getAllTeachers);
+router.get("/course", verifyToken, getTeacherCourse);
 router.post("/create", verifyToken, createTeacher);
 router.post("/login", loginTeacher);
 

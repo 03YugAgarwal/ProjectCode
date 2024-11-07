@@ -104,7 +104,7 @@ const StudentHome = () => {
             <h2>Upcoming Assignments:</h2>
             {assignments.length > 0 ? (
               assignments.map((assignment) => (
-                <AssignmentCard key={assignment._id} assignment={assignment} />
+                <AssignmentCard key={assignment._id} assignment={assignment} navigateLink={`/code/${assignment._id}`} />
               ))
             ) : (
               <p>No assignments available for this course.</p>

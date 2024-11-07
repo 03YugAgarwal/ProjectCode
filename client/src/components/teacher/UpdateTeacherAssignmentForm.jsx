@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import Cookies from 'js-cookie';
-import { BASE_URL } from '../../constants';
-import TeacherAssignmentFormQuestion from "./TeacherAssignmentFormQuestion";
+import Cookies from "js-cookie";
+import { BASE_URL } from "../../constants";
+import { useParams } from "react-router-dom";
+import UpdateTeacherAssignmentFormQuestion from "./UpdateTeacherAssignmentFormQuestion";
 
-const TeacherAssignmentForm = () => {
+const UpdateTeacherAssignmentForm = () => {
   const [codes, setCodes] = useState(1);
   const [questionsData, setQuestionsData] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -17,26 +18,52 @@ const TeacherAssignmentForm = () => {
     question: questionsData,
   });
 
-  // Update formData whenever codes or questionsData changes
-  useEffect(() => {
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      codes,
-      question: questionsData,
-    }));
-  }, [codes, questionsData]);
+  const { id } = useParams();
 
+  // Fetch and populate form data based on assignment ID
+  useEffect(() => {
+    const fetchAssignmentData = async () => {
+      try {
+        const token = Cookies.get("user_token");
+        const response = await fetch(`${BASE_URL}/student/teacher/get/${id}`, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
+        if (!response.ok) throw new Error("Failed to fetch assignment data");
+        const data = await response.json();
+
+        // Populate form fields with fetched data
+        setFormData({
+          title: data.title,
+          course: data.course,
+          type: data.type,
+          codes: data.codes,
+          question: data.question || [], // Ensure it's always an array
+        });
+        setCodes(data.codes);
+        setQuestionsData(data.question || []); // Ensure it's always an array
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchAssignmentData();
+  }, [id]);
+
+  // Fetch courses for the dropdown list
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const token = Cookies.get('user_token');
+        const token = Cookies.get("user_token");
         const response = await fetch(`${BASE_URL}/teacher/course`, {
           headers: {
             Authorization: `${token}`,
           },
         });
-        if (!response.ok) throw new Error('Failed to fetch courses');
+        if (!response.ok) throw new Error("Failed to fetch courses");
         const data = await response.json();
+
         setCourses(data.courses);
       } catch (err) {
         setError(err.message);
@@ -54,20 +81,20 @@ const TeacherAssignmentForm = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    
+
     try {
-      const token = Cookies.get('user_token');
-      const response = await fetch(`${BASE_URL}/student/create`, {
-        method: "POST",
+      const token = Cookies.get("user_token");
+      const response = await fetch(`${BASE_URL}/student/update`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `${token}`,
         },
         body: JSON.stringify(formData),
       });
-      
-      if (!response.ok) throw new Error('Failed to create assignment');
-      alert("Assignment created successfully!");
+
+      if (!response.ok) throw new Error("Failed to update assignment");
+      alert("Assignment updated successfully!");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -77,7 +104,7 @@ const TeacherAssignmentForm = () => {
 
   return (
     <>
-      <h1>Create an assignment</h1>
+      <h1>Update an assignment</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="Title">Title</label>
         <input
@@ -85,7 +112,10 @@ const TeacherAssignmentForm = () => {
           placeholder="Bubble Sort"
           value={formData.title}
           onChange={(e) =>
-            setFormData(prevFormData => ({ ...prevFormData, title: e.target.value }))
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              title: e.target.value,
+            }))
           }
         />
 
@@ -95,11 +125,14 @@ const TeacherAssignmentForm = () => {
           id="coursename"
           value={formData.course}
           onChange={(e) =>
-            setFormData(prevFormData => ({ ...prevFormData, course: e.target.value }))
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              course: e.target.value,
+            }))
           }
         >
           <option value="">Select a course</option>
-          {courses.map(course => (
+          {courses.map((course) => (
             <option key={course._id} value={course._id}>
               {course.Title} ({course.CourseID})
             </option>
@@ -112,7 +145,10 @@ const TeacherAssignmentForm = () => {
           id="typeOption"
           value={formData.type}
           onChange={(e) =>
-            setFormData(prevFormData => ({ ...prevFormData, type: e.target.value }))
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              type: e.target.value,
+            }))
           }
         >
           <option value="lab">Lab Work</option>
@@ -126,18 +162,21 @@ const TeacherAssignmentForm = () => {
           onChange={(e) => setCodes(Number(e.target.value))}
         />
 
-        <TeacherAssignmentFormQuestion
+        <UpdateTeacherAssignmentFormQuestion
           numberOfQuestions={codes}
           onQuestionsChange={handleQuestionsUpdate}
+          preQuestions={formData?.question}
         />
 
         {loading && <p>Submitting...</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
-        
-        <button type="submit" disabled={loading}>Submit</button>
+
+        <button type="submit" disabled={loading}>
+          Submit
+        </button>
       </form>
     </>
   );
 };
 
-export default TeacherAssignmentForm;
+export default UpdateTeacherAssignmentForm;

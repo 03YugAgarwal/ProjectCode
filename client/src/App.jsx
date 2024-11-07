@@ -1,4 +1,4 @@
-import CodingHome from "./components/coding/CodingHome";
+// import CodingHome from "./components/coding/CodingHome";
 import TeacherAssignmentForm from "./components/teacher/TeacherAssignmentForm";
 import Login from "./components/Login";
 import Home from "./components/Home/Home";
@@ -15,6 +15,8 @@ import CreateTeacher from "./components/Admin/CreateTeacher";
 import CreateStudent from "./components/Admin/CreateStudent";
 import CreateCourse from "./components/Admin/CreateCourse";
 import AssignStudents from "./components/Admin/AssignStudents";
+import UpdatePage from "./components/teacher/UpdatePage";
+import UpdateTeacherAssignmentForm from "./components/teacher/UpdateTeacherAssignmentForm";
 
 const router = createBrowserRouter([
   {
@@ -34,7 +36,9 @@ const router = createBrowserRouter([
       {
         element: <RestrictedTeacher />,
         children: [
-          {path: "/create", element: <TeacherAssignmentForm />}
+          {path: "/create", element: <TeacherAssignmentForm />},
+          {path: "/update", element: <UpdatePage />},
+          {path: "/update/:id", element: <UpdateTeacherAssignmentForm />},
           // {path: '/code', element}
         ]
       },

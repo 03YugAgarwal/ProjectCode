@@ -16,14 +16,18 @@ async function verifyToken(req, res, next) {
 
     if(admin){
       req.role = [0, 1, 2];
+      req.userId = admin._id
     }
     else if (teacher) {
       req.role = [0, 1];
+      req.userId = teacher._id
+      
     } else {
       req.role = [0];
+      req.userId = decoded.userId;
     }
+    
 
-    req.userId = decoded.userId;
     next();
   } catch (error) {
     res.status(401).json({ error: "Invalid token", errorCatch: error.message });
