@@ -38,7 +38,7 @@ const router = createBrowserRouter([
         element: <RestrictedTeacher />,
         children: [
           {path: "/create", element: <TeacherAssignmentForm />},
-          {path: "/update", element: <UpdatePage />},
+          // {path: "/update", element: <UpdatePage />},
           // {path: "/update/:id", element: <UpdateTeacherAssignmentForm />},
           {path: "/update/:id", element: <UpdateAssignmentForm />},
           // {path: '/code', element}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../../constants";
 import Cookies from 'js-cookie';
-import AssignmentCard from "../Layout/AssignmentCard";
+import AssignmentCardTeacher from "../Layout/AssignmentCardTeacher";
 
 const UpdatePage = () => {
     const [assignments, setAssignments] = useState([]);
@@ -40,7 +40,7 @@ const UpdatePage = () => {
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {!loading && !error && assignments.length === 0 && <p>No assignments available</p>}
             {!loading && assignments.map((assignment) => (
-                <AssignmentCard
+                <AssignmentCardTeacher
                     key={assignment._id}
                     assignment={assignment}
                     navigateLink={`/update/${assignment._id}`}
