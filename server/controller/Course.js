@@ -15,7 +15,17 @@ const createCourse = async (req, res) => {
       return;
     }
 
+    const alrCourse = await Course.findOne({CourseID})
+    if(alrCourse){
+      return res.status(400).json({"message":"Course with this courseid already exists"})
+    }
+    
     let FacultyID = await Teacher.findOne({ TeacherID: Faculty });
+    
+    if(!FacultyID){
+      return res.status(400).json({"message":"No Such faculty exists"})
+    }
+
     FacultyID = FacultyID._id;
 
     if (isOver) {
@@ -72,57 +82,49 @@ const assignedCourse = async (req, res) => {
 
 const assignStudentsToCourse = async (req, res) => {
   try {
-    const isTeacherOrAdmin = req.role.includes(1);
+    const isTeacherOrAdmin = req.role.includes(2);
     if (!isTeacherOrAdmin) {
-      return res
-        .status(403)
-        .json({
-          error: "Unauthorized",
-          message: "Unauthorized to assign to courses",
-        });
+      return res.status(403).json({
+        error: "Unauthorized",
+        message: "Unauthorized to assign to courses",
+      });
     }
 
-    const { Students, CourseID, Teachers } = req.body;
+    const { Students, CourseID } = req.body;
 
-    if (Students.length === 0 || !CourseID) {
-      res
-        .status(400)
-        .json({ error: "MissingField", message: "All fields are required" });
-      return;
+    if (!Array.isArray(Students) || Students.length === 0 || !CourseID) {
+      return res.status(400).json({
+        error: "MissingField",
+        message: "CourseID and non-empty Students array are required",
+      });
     }
 
     const course = await Course.findOne({ CourseID });
     if (!course) {
-      res
-        .status(404)
-        .json({
-          error: "NoSuchCourse",
-          message: `No course with CourseID: ${CourseID} found`,
-        });
-      return;
+      return res.status(404).json({
+        error: "NoSuchCourse",
+        message: `No course with CourseID: ${CourseID} found`,
+      });
     }
 
     const existingMap = await UserCourse.findOne({ Course: course._id });
     if (existingMap) {
-      const students = [...new Set([...existingMap.Users, ...Students])];
-      const teachers = [...new Set([...existingMap.Teachers, ...Teachers])];
-      existingMap.Users = students;
-      existingMap.Teachers = teachers;
+      const uniqueStudents = Array.from(new Set([...existingMap.Users, ...Students]));
+      existingMap.Users = uniqueStudents;
       await existingMap.save();
-      res.status(200).json(existingMap);
-    } else {
-      const newMap = await UserCourse.create({
-        Users: Students,
-        Course: course._id,
-        Teachers,
-      });
-      res.status(200).json(newMap);
+      return res.status(200).json({ message: "Students updated successfully", updatedStudents: uniqueStudents });
     }
+
+    const newMap = await UserCourse.create({
+      Users: Students,
+      Course: course._id,
+    });
+    return res.status(200).json({ message: "Students assigned successfully", assignedStudents: Students });
   } catch (error) {
-    res.status(500).json({
-      error: "couldntAssign",
-      message: "There was error in assigning students to course",
-      errorCatch: error.message,
+    console.error("Error assigning students:", error);
+    return res.status(500).json({
+      error: "ServerError",
+      message: "An error occurred while assigning students to course",
     });
   }
 };

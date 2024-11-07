@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const Teacher = require("../models/TeacherSchema");
+const Admin = require("../models/AdminSchema")
 
 const JWT_SECRET = process.env.JWT_SECRET
 
@@ -8,6 +9,12 @@ async function ValidateToken(req, res) {
   if (!token) return res.status(401).json({ error: "Access denied" });
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
+
+    const admin = await Admin.findOne({adminid: decoded.userId})
+
+    if(admin){
+      return res.status(200).json({role: [0,1,2]})
+    }
 
     const teacher = await Teacher.findOne({User: decoded.userId})
     if(teacher){

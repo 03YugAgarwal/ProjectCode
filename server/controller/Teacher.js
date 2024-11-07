@@ -29,6 +29,13 @@ const getAllTeachers = async (req, res) => {
 const createTeacher = async (req, res) => {
   try {
     const { TeacherID, Name, Email, Password } = req.body;
+
+    const role = req.role
+
+    if(!role.includes(2)){
+      return res.status(401).json({"message": "Not authorized to create"})
+    }
+
     if (!TeacherID || !Name || !Email || !Password) {
       res.status(400).json({
         error: "MissingFields",
@@ -36,6 +43,12 @@ const createTeacher = async (req, res) => {
       });
       return;
     }
+
+    const existsingTeacher = await Teacher.findOne({TeacherID})
+    if(existsingTeacher){
+      return res.status(401).json({"message": "Teacher already exists"})
+    }
+
     const hashPassword = await bcrypt.hash(Password, saltRounds);
     let teacherRegisterNumber = 'T-'+TeacherID
     const newUser = await User.create({ RegisterNumber: teacherRegisterNumber,Name, Email, Password: hashPassword });
