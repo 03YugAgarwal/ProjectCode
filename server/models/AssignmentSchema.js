@@ -1,42 +1,43 @@
 const mongoose = require("mongoose");
 
-const testCaseSchema = mongoose.Schema({
+const testCaseSchema = new mongoose.Schema({
   input: {
     type: String,
-    required: [true, "Please provide an input for test case"],
+    required: [true, "Please provide an input for the test case"],
   },
   output: {
     type: String,
-    required: [true, "Please provide an output for test case"],
+    required: [true, "Please provide an output for the test case"],
   },
 });
 
-const questionSchema = mongoose.Schema({
+const questionSchema = new mongoose.Schema({
+  number: {
+    type: Number,
+    required: [true, "Please provide the question number"],
+  },
   question: {
     type: String,
     required: [true, "Please provide a question"],
   },
-  testCaseNumber: {
+  numberOfTestCases: {
     type: Number,
+    required: true,
+    default: 0,
   },
-  testCase: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "TestCase",
-    },
-  ],
+  testCases: [testCaseSchema], // Embed the testCaseSchema here
 });
 
-const assignmentSchema = mongoose.Schema({
+const assignmentSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, "Please provide a title for assignment"],
+    required: [true, "Please provide a title for the assignment"],
   },
   course: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
     required: true,
-    index: true, 
+    index: true,
   },
   type: {
     type: String,
@@ -53,46 +54,19 @@ const assignmentSchema = mongoose.Schema({
     default: Date.now,
     index: true,
   },
-  startBy: {  
-    type: Date,
+  isOver: {
+    type: Boolean,
+    default: false,
   },
-  submitBy: { 
-    type: Date,
+  startBy: {
+    type: Date, // Supports both date and time
   },
-  question: [
-    {
-      number: {
-        type: Number,
-        required: true,
-      },
-      question: {
-        type: String,
-        required: true,
-      },
-      numberOfTestCases: {
-        type: Number,
-        default: 0,
-        required: true,
-      },
-      testCases: [
-        {
-          input: {
-            type: String,
-            required: true,
-          },
-          output: {
-            type: String,
-            required: true,
-          },
-        },
-      ],
-    },
-  ],
+  submitBy: {
+    type: Date, // Supports both date and time
+  },
+  question: [questionSchema], // Embed the questionSchema here
 });
 
-
 const Assignment = mongoose.model("Assignment", assignmentSchema);
-const Question = mongoose.model("Question", questionSchema);
-const TestCase = mongoose.model("TestCase", testCaseSchema);
 
-module.exports = { Assignment, Question, TestCase };
+module.exports = { Assignment };

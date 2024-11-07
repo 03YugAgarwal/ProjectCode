@@ -109,37 +109,38 @@ const createAssignment = async (req, res) => {
     if (!isTeacherOrAdmin) {
       return res.status(403).json({
         error: "Unauthorized",
-        message: "Unauthorized to create any assignments",
+        message: "Unauthorized to create assignments",
       });
     }
 
-    const teacher = await Teacher.findById(req.userId); // Await added here
+    const teacher = await Teacher.findById(req.userId);
     if (!teacher) {
       return res.status(403).json({
         error: "Unauthorized",
-        message: "Unauthorized to create any assignments",
+        message: "Unauthorized to create assignments",
       });
     }
 
-    const { title, course, type, codes, question, startBy, submitBy } = req.body;
+    const { title, course, type, codes, question, startBy, submitBy, isOver } = req.body;
 
-    if (!title || !course || !type || !codes) {
+    // Validation check for required fields
+    if (!title || !course || !type || !codes || !question) {
       return res.status(400).json({
         error: "MissingFields",
         message: "Some required fields are missing values",
-        title,course,type,codes
       });
     }
 
-
+    // Construct the assignment data
     const data = {
       title,
       course,
       type,
       numberOfCodes: codes,
       question,
-      ...(startBy && { startBy }), 
-      ...(submitBy && { submitBy }),
+      ...(startBy && { startBy }), // Optional startBy field
+      ...(submitBy && { submitBy }), // Optional submitBy field
+      isOver: isOver || false, // Set default value to false if not provided
     };
 
     const createdAssignment = await Assignment.create(data);
@@ -149,6 +150,60 @@ const createAssignment = async (req, res) => {
     res.status(500).json({
       error: "Couldn'tCreateAssignment",
       message: "Error in creating assignment",
+      errorCatch: error.message,
+    });
+  }
+};
+
+const updateAssignment = async (req, res) => {
+  try {
+    const isTeacherOrAdmin = req.role.includes(1);
+    if (!isTeacherOrAdmin) {
+      return res.status(403).json({
+        error: "Unauthorized",
+        message: "Unauthorized to update assignments",
+      });
+    }
+
+    const teacher = await Teacher.findById(req.userId);
+    if (!teacher) {
+      return res.status(403).json({
+        error: "Unauthorized",
+        message: "Unauthorized to update assignments",
+      });
+    }
+
+    const {_id, title, course, type, codes, question, startBy, submitBy, isOver } = req.body;
+
+    const updateData = {
+      ...(title && { title }),
+      ...(course && { course }),
+      ...(type && { type }),
+      ...(codes !== undefined && { numberOfCodes: codes }), // Allow updating to 0 if needed
+      ...(question && { question }),
+      ...(startBy && { startBy }),
+      ...(submitBy && { submitBy }),
+      ...(isOver !== undefined && { isOver }), // Allow updating isOver to true or false
+    };
+
+    const updatedAssignment = await Assignment.findByIdAndUpdate(_id, updateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedAssignment) {
+      return res.status(404).json({
+        error: "NotFound",
+        message: "Assignment not found",
+      });
+    }
+
+    res.status(200).json(updatedAssignment);
+
+  } catch (error) {
+    res.status(500).json({
+      error: "Couldn'tUpdateAssignment",
+      message: "Error in updating assignment",
       errorCatch: error.message,
     });
   }
@@ -224,5 +279,6 @@ module.exports = {
   createAssignment,
   getAssignmentById,
   getAssignmentForTeacherByID,
-  getAssignmentForTeacherByAssignmentid
+  getAssignmentForTeacherByAssignmentid,
+  updateAssignment
 };

@@ -15,6 +15,11 @@ const TeacherAssignmentForm = () => {
     type: "lab",
     codes,
     question: questionsData,
+    isOver: false, // Default value for isOver
+    startByDate: "",
+    startByTime: "",
+    submitByDate: "",
+    submitByTime: "",
   });
 
   // Update formData whenever codes or questionsData changes
@@ -50,12 +55,30 @@ const TeacherAssignmentForm = () => {
     setQuestionsData(questions);
   }, []);
 
+  const handleInputChange = (e, field) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    setFormData(prevFormData => ({ ...prevFormData, [field]: value }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     
     try {
+      // Combine date and time fields into a single datetime string
+      const startDateTime = formData.startByDate && formData.startByTime ? 
+        `${formData.startByDate}T${formData.startByTime}` : "";
+      const submitDateTime = formData.submitByDate && formData.submitByTime ? 
+        `${formData.submitByDate}T${formData.submitByTime}` : "";
+  
+      // Update formData with the combined date and time
+      const updatedFormData = {
+        ...formData,
+        startBy: startDateTime,
+        submitBy: submitDateTime,
+      };
+  
       const token = Cookies.get('user_token');
       const response = await fetch(`${BASE_URL}/student/create`, {
         method: "POST",
@@ -63,7 +86,7 @@ const TeacherAssignmentForm = () => {
           "Content-Type": "application/json",
           Authorization: `${token}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(updatedFormData),
       });
       
       if (!response.ok) throw new Error('Failed to create assignment');
@@ -129,6 +152,46 @@ const TeacherAssignmentForm = () => {
         <TeacherAssignmentFormQuestion
           numberOfQuestions={codes}
           onQuestionsChange={handleQuestionsUpdate}
+        />
+
+        {/* Date and Time Fields */}
+        <label htmlFor="startByDate">Start By Date</label>
+        <input
+          type="date"
+          id="startByDate"
+          value={formData.startByDate}
+          onChange={(e) => handleInputChange(e, 'startByDate')}
+        />
+        <label htmlFor="startByTime">Start By Time</label>
+        <input
+          type="time"
+          id="startByTime"
+          value={formData.startByTime}
+          onChange={(e) => handleInputChange(e, 'startByTime')}
+        />
+
+        <label htmlFor="submitByDate">Submit By Date</label>
+        <input
+          type="date"
+          id="submitByDate"
+          value={formData.submitByDate}
+          onChange={(e) => handleInputChange(e, 'submitByDate')}
+        />
+        <label htmlFor="submitByTime">Submit By Time</label>
+        <input
+          type="time"
+          id="submitByTime"
+          value={formData.submitByTime}
+          onChange={(e) => handleInputChange(e, 'submitByTime')}
+        />
+
+        {/* Is Over Checkbox */}
+        <label htmlFor="isOver">Is Over?</label>
+        <input
+          type="checkbox"
+          id="isOver"
+          checked={formData.isOver}
+          onChange={(e) => handleInputChange(e, 'isOver')}
         />
 
         {loading && <p>Submitting...</p>}
