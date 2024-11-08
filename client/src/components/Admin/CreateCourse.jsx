@@ -2,6 +2,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../../constants";
 import { Link } from "react-router-dom";
+import AdminSidebar from "./AdminSidebar";
 
 const CreateCourse = () => {
   const [semester, setSemester] = useState("");
@@ -65,6 +66,7 @@ const CreateCourse = () => {
 
   return (
     <>
+    <AdminSidebar />
       <h1>Create a Course</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}

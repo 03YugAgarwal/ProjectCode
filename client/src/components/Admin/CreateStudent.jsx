@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../../constants";
+import AdminSidebar from "./AdminSidebar";
 
 const CreateStudent = () => {
   const [students, setStudents] = useState("");
@@ -15,9 +16,9 @@ const CreateStudent = () => {
     setSuccess(null);
 
     let studArr = students
-      .split(',')
-      .map(id => id.trim())
-      .filter(id => id.length > 0); 
+      .split(",")
+      .map((id) => id.trim())
+      .filter((id) => id.length > 0);
 
     if (studArr.length === 0) {
       setError("Please provide at least one valid StudentID.");
@@ -37,9 +38,9 @@ const CreateStudent = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `${token}`
+          Authorization: `${token}`,
         },
-        body: JSON.stringify({ RegisterNumbers: studArr })
+        body: JSON.stringify({ RegisterNumbers: studArr }),
       });
 
       if (!response.ok) {
@@ -47,7 +48,9 @@ const CreateStudent = () => {
         setError(errorData.message || "Failed to create student accounts");
       } else {
         const result = await response.json();
-        setSuccess(`Created ${result.createdUsers.length} student(s) successfully!`);
+        setSuccess(
+          `Created ${result.createdUsers.length} student(s) successfully!`
+        );
         setStudents("");
       }
     } catch (err) {
@@ -59,6 +62,7 @@ const CreateStudent = () => {
 
   return (
     <>
+      <AdminSidebar />
       <h1>Create Student Login</h1>
       <p>Note: Give comma-separated values for multiple students</p>
       {error && <p style={{ color: "red" }}>{error}</p>}

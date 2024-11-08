@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BASE_URL } from "../../constants";
 import Cookies from 'js-cookie'
 import { Link } from "react-router-dom";
+import AdminSidebar from "./AdminSidebar";
 
 const CreateTeacher = () => {
     const [registerid, setRegisterid] = useState('');
@@ -65,6 +66,7 @@ const CreateTeacher = () => {
 
     return (
         <>
+            <AdminSidebar />
             {error && <p style={{ color: "red" }}>{error}</p>}
             {success && <p style={{ color: "green" }}>{success}</p>}
             <h1>Create Teacher Login</h1>

@@ -29,7 +29,7 @@ const Navbar = () => {
 
   let content = null;
 
-  if (userRole?.includes(1)) {
+  if (userRole?.includes(1) && !userRole?.includes(2)) {
     content = <Button onClick={handleCreateClick}>Create Assignment</Button>;
   }
 

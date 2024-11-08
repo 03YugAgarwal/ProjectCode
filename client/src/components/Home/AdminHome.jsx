@@ -1,20 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+// import { Outlet } from 'react-router-dom'
+import AdminSidebar from "../Admin/AdminSidebar";
+import styles from "./AdminHome.module.css";
 
 const AdminHome = () => {
   return (
     <>
-      <h1>Admin Home</h1>
-      <Link to="/createteacher">Create Teacher Login</Link>
-      <br />
-      <Link to="/createstudent">Create Student Login</Link>
-      <br />
-      <Link to="/createcourse">Create Course</Link>
-      <br />
-      <Link to="/assign">Assign Students to Course</Link>
-
+      <AdminSidebar />
+      <div className={styles.container}>
+        <div className={styles.placeholder}></div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default AdminHome
+export default AdminHome;
