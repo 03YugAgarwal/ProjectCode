@@ -3,6 +3,10 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+import Button from "./ui/Button";
+
+import styles from "./Navbar.module.css";
+
 const Navbar = () => {
   const { isLoggedIn, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -11,18 +15,22 @@ const Navbar = () => {
     if (isLoggedIn) {
       logout();
     } else {
-      navigate('/login');
+      navigate("/login");
     }
   };
 
   return (
-    <>
+    <div className={styles.navbar}>
+      <div className={styles.logo}>
+        <img className={styles.img} src="/logo.png" alt="Alt-tab-logo" />
+        <h1>Alt-Tab</h1>
+      </div>
       {isLoggedIn ? (
-        <button onClick={handleButton}>Signout</button>
+        <Button onClick={handleButton}>Signout</Button>
       ) : (
-        <button onClick={handleButton}>Login</button>
+        <Button onClick={handleButton}>Login</Button>
       )}
-    </>
+    </div>
   );
 };
 

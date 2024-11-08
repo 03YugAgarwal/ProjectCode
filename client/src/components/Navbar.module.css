@@ -1,0 +1,26 @@
+.navbar{
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32px;
+    background-color: white;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    background-color: white;
+}
+
+.logo h1{
+    font-size: 28px;
+    font-weight: 500;
+    background-color: white;
+}
+
+.img{
+    height: 32px;
+    margin-right: 8px;
+}
