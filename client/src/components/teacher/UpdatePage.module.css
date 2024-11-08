@@ -1,0 +1,15 @@
+.updatePage{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.updatePage > h1{
+    width: 80%;
+
+    text-align: center;
+
+    margin: 32px auto 16px auto;
+    font-size: 2rem;
+    font-weight: 600;
+}

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import AssignmentCard from "../Layout/AssignmentCard";
 import Cookies from "js-cookie";
-import {BASE_URL} from '../../constants'
+import { BASE_URL } from "../../constants";
+
+import styles from "./StudentHome.module.css";
 
 const StudentHome = () => {
   const [courses, setCourses] = useState([]);
@@ -15,7 +17,7 @@ const StudentHome = () => {
       try {
         const token = Cookies.get("user_token");
 
-        const response = await fetch(BASE_URL+"/course/mycourses", {
+        const response = await fetch(BASE_URL + "/course/mycourses", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -80,31 +82,41 @@ const StudentHome = () => {
   };
 
   if (loading) {
-    return <p>Loading courses...</p>;
+    return <p className={styles.para}>Loading courses...</p>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className={styles.para}>{error}</p>;
   }
 
   return (
     <>
       {courses.length > 0 ? (
         <>
-          <select name="course" id="course" onChange={handleCourseChange}>
-            <option value="">Select a course</option>
-            {courses.map((course) => (
-              <option key={course._id} value={course._id}>
-                {course.Title}
-              </option>
-            ))}
-          </select>
+          <div className={styles.selectContainer}>
+            <select
+              name="course"
+              id="course"
+              onChange={handleCourseChange}
+            >
+              <option value="">Select a course</option>
+              {courses.map((course) => (
+                <option key={course._id} value={course._id}>
+                  {course.Title}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <div>
+          <div className={styles.container}>
             <h2>Upcoming Assignments:</h2>
             {assignments.length > 0 ? (
               assignments.map((assignment) => (
-                <AssignmentCard key={assignment._id} assignment={assignment} navigateLink={`/code/${assignment._id}`} />
+                <AssignmentCard
+                  key={assignment._id}
+                  assignment={assignment}
+                  navigateLink={`/code/${assignment._id}`}
+                />
               ))
             ) : (
               <p>No assignments available for this course.</p>
@@ -112,7 +124,7 @@ const StudentHome = () => {
           </div>
         </>
       ) : (
-        <p>No courses available. Please contact support or check back later.</p>
+        <p className={styles.para}>No courses available. Please contact support or check back later.</p>
       )}
     </>
   );

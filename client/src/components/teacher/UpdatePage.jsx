@@ -3,6 +3,8 @@ import { BASE_URL } from "../../constants";
 import Cookies from 'js-cookie';
 import AssignmentCardTeacher from "../Layout/AssignmentCardTeacher";
 
+import styles from './UpdatePage.module.css'
+
 const UpdatePage = () => {
     const [assignments, setAssignments] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -34,7 +36,7 @@ const UpdatePage = () => {
     }, [token]);
 
     return (
-        <>
+        <div className={styles.updatePage}>
             <h1>All Assignments:</h1>
             {loading && <p>Loading...</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -46,7 +48,7 @@ const UpdatePage = () => {
                     navigateLink={`/update/${assignment._id}`}
                 />
             ))}
-        </>
+        </div>
     );
 };
 

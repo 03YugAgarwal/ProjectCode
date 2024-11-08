@@ -1,28 +1,33 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import styles from "./AssignmentCardTeacher.module.css";
 
 const AssignmentCard = ({ assignment, navigateLink }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleClick = () => {
     // navigate(`/code/${assignment._id}`)
-    navigate(navigateLink)
-  }
+    navigate(navigateLink);
+  };
 
   const formatDate = (date) => {
     if (!date) return "--";
     const formattedDate = new Date(date);
-    return formattedDate.toLocaleString(); // This formats the date to a readable format
-  }
+    return formattedDate.toLocaleString();
+  };
 
   return (
-    <div onClick={handleClick}>
-      <h1>{assignment?.title}</h1>
-      <h3>{assignment?.numberOfCodes}</h3>
-      <h3>{assignment?.type}</h3>
-      <h5>Start By: {formatDate(assignment?.startBy)}</h5>
-      <h5>Finish By: {formatDate(assignment?.submitBy)}</h5>
+    <div onClick={handleClick} className={styles.card}>
+      <div className={styles.cardHeader}>
+        <h1 className={styles.title}>{assignment?.title || "Untitled Assignment"}</h1>
+        <p className={styles.type}>{assignment?.type || "N/A"}</p>
+      </div>
+      <div className={styles.details}>
+        <h3>Questions: <span>{assignment?.numberOfCodes || "0"}</span></h3>
+        <p>Start By: <span>{formatDate(assignment?.startBy)}</span></p>
+        <p>Finish By: <span>{formatDate(assignment?.submitBy)}</span></p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default AssignmentCard;
