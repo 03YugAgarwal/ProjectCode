@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { BASE_URL } from "../constants";
 
+// import Button from "./ui/Button";
+import styles from "./Login.module.css";
+
 function validatePassword(password) {
   const uppercaseRegex = /[A-Z]/;
   const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
@@ -41,7 +44,7 @@ const Login = () => {
     };
 
     try {
-      const response = await fetch(BASE_URL+"/user/login", {
+      const response = await fetch(BASE_URL + "/user/login", {
         method: "POST",
         body: JSON.stringify(payload),
         headers: {
@@ -50,10 +53,10 @@ const Login = () => {
       });
 
       const data = await response.json();
-      
+
       if (data?.token && data?.role) {
         login(data.token, data.role);
-        navigate("/"); 
+        navigate("/");
       } else {
         alert("Login failed. Please check your credentials.");
       }
@@ -65,25 +68,40 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Registration Number</label>
-      <input
-        type="text"
-        placeholder="XYBCEABCD"
-        value={regno}
-        onChange={handleRegNoInput}
-      />
-      <label>Password</label>
-      <input
-        type="password"
-        value={password}
-        onChange={handlePasswordInput}
-      />
-      <button type="submit" disabled={isClicked}>
-        Submit
-      </button>
-      <p>Note: You will be logged out after 1 day.</p>
-    </form>
+    <div className={styles.login}>
+      <img src="/login.jpg" alt="Designed by stories / Freepik" />
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <img src="/logo.png" alt="Alt-tab-logo" />
+          <h1>Welcome back!</h1>
+          <p>Please enter your details</p>
+        </div>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <fieldset>
+            {/* <label>Registration Number</label> */}
+            <input
+              type="text"
+              placeholder="Registration Number"
+              value={regno}
+              onChange={handleRegNoInput}
+            />
+          </fieldset>
+          <fieldset>
+            {/* <label>Password</label> */}
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={handlePasswordInput}
+            />
+          </fieldset>
+          <button type="submit" disabled={isClicked} className={styles.button}>
+            Submit
+          </button>
+          <p> <strong>Note: </strong>You will be logged out after 1 day.</p>
+        </form>
+      </div>
+    </div>
   );
 };
 
