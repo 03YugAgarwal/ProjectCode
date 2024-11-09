@@ -1,0 +1,16 @@
+.input{
+    height: 36px;
+    width: 70%;
+    appearance: none;
+    border: none;
+    outline: none;
+    border: 1px solid #ddd;
+    border-bottom: 0.2em solid #bababa;
+    /* background: rgba(206, 206, 206, 0.2); */
+    border-radius: 0.4em 0.4em 0 0;
+    padding: 0.4em 0.8em;
+    margin-bottom: 0.8em;
+    color: rgb(57, 57, 57);
+    font-size: 1em;
+    font-weight: 500;
+}

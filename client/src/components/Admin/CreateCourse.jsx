@@ -4,6 +4,9 @@ import { BASE_URL } from "../../constants";
 import { Link } from "react-router-dom";
 import AdminSidebar from "./AdminSidebar";
 
+import styles from "./CreateCourse.module.css";
+import Input from "../ui/Input";
+
 const CreateCourse = () => {
   const [semester, setSemester] = useState("");
   const [title, setTitle] = useState("");
@@ -33,7 +36,7 @@ const CreateCourse = () => {
       Semester: semester,
       Title: title,
       CourseID: courseID,
-      Faculty: faculty
+      Faculty: faculty,
     };
 
     setLoading(true);
@@ -42,9 +45,9 @@ const CreateCourse = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `${token}`
+          Authorization: `${token}`,
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -66,40 +69,52 @@ const CreateCourse = () => {
 
   return (
     <>
-    <AdminSidebar />
-      <h1>Create a Course</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>Semester</label>
-        <input
-          type="text"
-          value={semester}
-          onChange={(e) => setSemester(e.target.value)}
-        />
-        <label>Title</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <label>CourseID</label>
-        <input
-          type="text"
-          value={courseID}
-          onChange={(e) => setCourseID(e.target.value)}
-        />
-        <label>Faculty</label>
-        <input
-          type="text"
-          value={faculty}
-          onChange={(e) => setFaculty(e.target.value)}
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? "Submitting..." : "Submit"}
-        </button>
-      </form>
-      <Link to="/">Back</Link>
+      <AdminSidebar />
+      <div className={styles.createcourse}>
+        {error && (
+          <p className={`${styles.message} ${styles.error}`}>{error}</p>
+        )}
+        {success && (
+          <p className={`${styles.message} ${styles.success}`}>{success}</p>
+        )}
+        <form onSubmit={handleSubmit}>
+          <h1>Create a Course</h1>
+          {/* <label>Semester</label> */}
+          <Input
+            type="text"
+            value={semester}
+            placeholder="Semester"
+            onChange={(e) => setSemester(e.target.value)}
+          />
+          {/* <label>Title</label> */}
+          <Input
+            type="text"
+            value={title}
+            placeholder="Title"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          {/* <label>CourseID</label> */}
+          <Input
+            type="text"
+            value={courseID}
+            placeholder="CourseID"
+            onChange={(e) => setCourseID(e.target.value)}
+          />
+          {/* <label>Faculty</label> */}
+          <Input
+            type="text"
+            value={faculty}
+            placeholder="Faculty ID"
+            onChange={(e) => setFaculty(e.target.value)}
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? "Submitting..." : "Submit"}
+          </button>
+          {/* <Link to="/" className={styles.backLink}>
+            Back
+          </Link> */}
+        </form>
+      </div>
     </>
   );
 };

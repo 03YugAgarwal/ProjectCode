@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 import { BASE_URL } from "../../constants";
 import AdminSidebar from "./AdminSidebar";
 
+import styles from "./CreateStudent.module.css";
+
 const CreateStudent = () => {
   const [students, setStudents] = useState("");
   const [loading, setLoading] = useState(false);
@@ -63,22 +65,24 @@ const CreateStudent = () => {
   return (
     <>
       <AdminSidebar />
-      <h1>Create Student Login</h1>
-      <p>Note: Give comma-separated values for multiple students</p>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
-      <form>
-        <label>StudentID</label>
-        <textarea
-          onChange={(e) => setStudents(e.target.value)}
-          value={students}
-          placeholder="Enter Student IDs, separated by commas"
-        />
-        <button onClick={handleClick} disabled={loading}>
-          {loading ? "Submitting..." : "Submit"}
-        </button>
-      </form>
-      <Link to="/">Back</Link>
+      <div className={styles.createstudent}>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {success && <p style={{ color: "green" }}>{success}</p>}
+        <form>
+          <h1>Create Student Login</h1>
+          {/* <label>StudentID</label> */}
+          <textarea
+            onChange={(e) => setStudents(e.target.value)}
+            value={students}
+            placeholder="Enter Student IDs, separated by commas"
+          />
+          <p>Note: Give comma-separated values for multiple students</p>
+          <button onClick={handleClick} disabled={loading}>
+            {loading ? "Submitting..." : "Submit"}
+          </button>
+        </form>
+        {/* <Link to="/">Back</Link> */}
+      </div>
     </>
   );
 };
