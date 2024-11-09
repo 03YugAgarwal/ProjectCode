@@ -1,0 +1,20 @@
+
+.message{
+
+    font-size: 1em;
+    font-weight: 500;
+    margin: 16px 0px;
+
+
+    padding: 4px 16px;
+}
+
+.error{
+    color: rgb(177, 49, 49);
+    border: 1px solid rgb(177, 49, 49);
+}
+
+.success{
+    color: rgb(49, 177, 49);
+    border: 1px solid rgb(49, 177, 49);
+}

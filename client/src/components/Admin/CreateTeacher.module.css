@@ -1,4 +1,4 @@
-.createcourse {
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,7 +15,7 @@
 
 }
 
-.createcourse > form {
+.container > form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,7 +24,7 @@
     height: 100%;
 }
 
-.createcourse > form > h1 {
+.container > form > h1 {
     font-size: 36px;
     font-weight: 700;
     margin-bottom: 32px;
@@ -32,7 +32,26 @@
     color: rgb(63, 63, 63);
 }
 
-.createcourse > form > button {
+.container > form > textarea {
+    /* height: 36px; */
+    min-height: 100px;
+    width: 70%;
+    appearance: none;
+    border: none;
+    outline: none;
+    border: 1px solid #ddd;
+    border-bottom: 0.2em solid #bababa;
+    /* background: rgba(206, 206, 206, 0.2); */
+    border-radius: 0.4em 0.4em 0 0;
+    padding: 0.4em 0.8em;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+    color: rgb(57, 57, 57);
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.container > form > button {
     width: 70%;
     height: 36px;
     background-color: rgb(63, 63, 63);
@@ -41,5 +60,12 @@
     font-weight: 500;
     border: none;
     border-radius: 0.4em;
-    margin: 16px 0px;
+    margin: 32px 0px;
+}
+
+.container > form > p {
+    font-size: .8em;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: rgb(63, 63, 63);
 }

@@ -5,6 +5,7 @@ import { BASE_URL } from "../../constants";
 import AdminSidebar from "./AdminSidebar";
 
 import styles from "./CreateStudent.module.css";
+import Feedback from "../ui/Feedback";
 
 const CreateStudent = () => {
   const [students, setStudents] = useState("");
@@ -50,10 +51,15 @@ const CreateStudent = () => {
         setError(errorData.message || "Failed to create student accounts");
       } else {
         const result = await response.json();
-        setSuccess(
-          `Created ${result.createdUsers.length} student(s) successfully!`
-        );
-        setStudents("");
+
+        if (result.message) {
+          setError(result.message);
+        } else {
+          setSuccess(
+            `Created ${result?.createdUsers?.length} student(s) successfully!`
+          );
+          setStudents("");
+        }
       }
     } catch (err) {
       setError("An error occurred while creating student accounts.");
@@ -66,8 +72,6 @@ const CreateStudent = () => {
     <>
       <AdminSidebar />
       <div className={styles.createstudent}>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {success && <p style={{ color: "green" }}>{success}</p>}
         <form>
           <h1>Create Student Login</h1>
           {/* <label>StudentID</label> */}
@@ -82,6 +86,8 @@ const CreateStudent = () => {
           </button>
         </form>
         {/* <Link to="/">Back</Link> */}
+        {error && <Feedback type="error">{error}</Feedback>}
+        {success && <Feedback type="success">{success}</Feedback>}
       </div>
     </>
   );

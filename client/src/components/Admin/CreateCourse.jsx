@@ -6,6 +6,7 @@ import AdminSidebar from "./AdminSidebar";
 
 import styles from "./CreateCourse.module.css";
 import Input from "../ui/Input";
+import Feedback from "../ui/Feedback";
 
 const CreateCourse = () => {
   const [semester, setSemester] = useState("");
@@ -71,12 +72,7 @@ const CreateCourse = () => {
     <>
       <AdminSidebar />
       <div className={styles.createcourse}>
-        {error && (
-          <p className={`${styles.message} ${styles.error}`}>{error}</p>
-        )}
-        {success && (
-          <p className={`${styles.message} ${styles.success}`}>{success}</p>
-        )}
+
         <form onSubmit={handleSubmit}>
           <h1>Create a Course</h1>
           {/* <label>Semester</label> */}
@@ -114,6 +110,12 @@ const CreateCourse = () => {
             Back
           </Link> */}
         </form>
+        {error && (
+          <Feedback type="error">{error}</Feedback>
+        )}
+        {success && (
+          <Feedback type="success">{success}</Feedback>
+        )}
       </div>
     </>
   );
