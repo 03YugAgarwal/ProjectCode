@@ -3,10 +3,11 @@ const Input = (props) => {
   return (
     <input
       placeholder={props.placeholder ? props.placeholder : ""}
-      type={props.type}
+      type={props.type ? props.type : 'text'}
       value={props.value}
       onChange={props.onChange}
       className={styles.input}
+      
     >
       {props.children}
     </input>
