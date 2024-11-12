@@ -35,8 +35,6 @@ const Assignment = () => {
 
         if (data) {
           setData(data);
-          // console.log(data);
-          
         } else {
           setError("No such assignment available");
         }
@@ -82,7 +80,7 @@ const Assignment = () => {
       </div>
 
       {selectedQuestion && (
-        <CodingHome data={data} questionNumber={selectedQuestion} />
+        <CodingHome key={selectedQuestion} data={data} questionNumber={selectedQuestion} />
       )}
     </>
   );

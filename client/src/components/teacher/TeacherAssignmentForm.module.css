@@ -1,0 +1,115 @@
+.container {
+  margin: 32px auto auto auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+
+  width: 70%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  justify-content: center;
+
+  width: 70%;
+}
+
+.form input{
+    padding: 8px 16px;
+
+    border-radius: 8px;
+
+    width: 200px;
+    margin: 8px 0;
+
+    border: 1px solid #cfcfcf;
+    background-color: #ffffff;
+    color: black;
+}
+
+.form label {
+  font-size: 1em;
+  font-weight: 500;
+  margin-right: 0.4em;
+}
+.form input[type="date"] {
+    padding: 8px 16px;
+
+    border-radius: 8px;
+
+    width: 200px;
+    margin: 8px 0;
+
+    border: 1px solid #cfcfcf;
+    background-color: #ffffff;
+    color: black;
+}
+
+.form input[type="time"] {
+    padding: 8px 16px;
+
+    border-radius: 8px;
+
+    width: 70px;
+    margin: 8px 0;
+
+    border: 1px solid #cfcfcf;
+    background-color: #ffffff;
+    color: black;
+}
+
+.dates {
+  display: flex;
+  width: 60%;
+
+  justify-content: center;
+
+  align-items: center;
+}
+.selectContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.selectContainer > select{
+    padding: 8px 16px;
+
+    border-radius: 8px;
+
+    width: 200px;
+    margin: 8px 0;
+
+    border: 1px solid #cfcfcf;
+    background-color: #ffffff;
+    color: black;
+}
+
+.isOver{
+    color: red;
+    margin: 20px;
+}
+
+.questionsContainer > div > textarea, .questionsContainer textarea {
+    /* height: 36px; */
+    min-height: 100px;
+    width: 100%;
+    border-radius: 8px;
+
+    /* width: 200px; */
+    padding: 8px;
+    margin: 8px 0;
+
+    border: 1px solid #cfcfcf;
+    background-color: #ffffff;
+    color: black;
+  }
+
+  .questionsContainer  hr {
+    width: 100%;
+    margin: 20px 0;
+}

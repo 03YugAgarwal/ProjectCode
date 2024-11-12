@@ -23,6 +23,31 @@ const executeCode = async (language, code, input) => {
   return response.data;
 };
 
+const getCode = async(req,res) => {
+  try{
+
+    const userId = req.userId;
+    const {assignmentID, questionNumber} = req.body;
+
+    const answer = await Answer.findOne({assignment: assignmentID, questionNumber, student: userId})
+
+    if(!answer){
+      return res.status(404).json({message: "No Code Found"})
+    }
+    // console.log(answer);
+    
+    res.status(200).json({code: answer.code})
+
+
+  }catch(error){
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Couldn't fetch old code",
+      errorCatch: error.message,
+    });
+  }
+}
+
 const checkAnswer = async (req, res) => {
   try {
     const { code, assignmentID, questionNumber, language } = req.body;
@@ -64,9 +89,14 @@ const checkAnswer = async (req, res) => {
     
 
     const answer = await Answer.findOneAndUpdate(
-        { questionNumber, assignment: assignmentID, student: req.userId, studentid: user.RegisterNumber, code },  
-        { output: newOutput, countPassed },                                  
-        { new: true, upsert: true }                                          
+      {
+        questionNumber,
+        assignment: assignmentID,
+        student: req.userId,
+        studentid: user.RegisterNumber
+      },
+      { code, output: newOutput, countPassed }, // Update the code and other fields
+      { new: true, upsert: true } // `upsert` creates a new document if none exists
     );
 
     // console.log(answer);
@@ -112,4 +142,4 @@ const getSubmission = async(req,res) => {
   }
 }
 
-module.exports = { checkAnswer, getSubmission };
+module.exports = { checkAnswer, getSubmission, getCode };

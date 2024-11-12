@@ -288,6 +288,7 @@ const getAssignmentForTeacherByAssignmentid = async(req,res) => {
   }
 }
 
+
 module.exports = {
   getAssignmentForStudentByID,
   getAssignmentForStudentByCourseID,
