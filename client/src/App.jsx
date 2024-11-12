@@ -18,6 +18,7 @@ import AssignStudents from "./components/Admin/AssignStudents";
 import UpdatePage from "./components/teacher/UpdatePage";
 // import UpdateTeacherAssignmentForm from "./components/teacher/UpdateTeacherAssignmentForm";
 import UpdateAssignmentForm from "./components/teacher/UpdateAssignmentForm";
+import Evaluate from "./components/teacher/Evaluate";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
           // {path: "/update", element: <UpdatePage />},
           // {path: "/update/:id", element: <UpdateTeacherAssignmentForm />},
           {path: "/update/:id", element: <UpdateAssignmentForm />},
+          {path: "/evaluate/:id", element: <Evaluate />},
           // {path: '/code', element}
         ]
       },

@@ -10,7 +10,9 @@ const AssignmentCard = ({ assignment, navigateLink }) => {
   };
 
   const handleDelete = () => {};
-  const handleEvaluate = () => {};
+  const handleEvaluate = () => {
+    navigate("/evaluate/"+assignment._id)
+  };
 
   const formatDate = (date) => {
     if (!date) return "--";

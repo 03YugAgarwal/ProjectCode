@@ -3,6 +3,7 @@ const { LANGUAGE_VERSIONS } = require("../constants");
 
 const { Assignment } = require("../models/AssignmentSchema");
 const { Answer } = require("../models/AnswerSchema");
+const { User } = require("../models/UserSchema");
 
 const API = axios.create({
   baseURL: "https://emkc.org/api/v2/piston/",
@@ -58,10 +59,12 @@ const checkAnswer = async (req, res) => {
     }
 
     // console.log(newOutput);
+
+    const user = await User.findById(req.userId)
     
 
     const answer = await Answer.findOneAndUpdate(
-        { questionNumber, assignment: assignmentID, student: req.userId },  
+        { questionNumber, assignment: assignmentID, student: req.userId, studentid: user.RegisterNumber, code },  
         { output: newOutput, countPassed },                                  
         { new: true, upsert: true }                                          
     );
@@ -79,4 +82,34 @@ const checkAnswer = async (req, res) => {
   }
 };
 
-module.exports = { checkAnswer };
+const getSubmission = async(req,res) => {
+  try{
+
+    const {assignmentID} = req.body
+
+    const role = req.role
+
+    if(!role.includes(1)){
+      return res.status(401).json({error: "NotAuthorized", message: "Not authorized to access this"})
+    }
+
+    // console.log(assignmentID);
+    const answer = await Answer.find({assignment: assignmentID})
+    
+
+    if(!answer){
+      return res.status(404).json({error: "NoAnswerFound", message: "Either no one has answered yet or internal server error"})
+    }
+
+    res.status(200).json(answer)
+
+  }catch(error){
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Couldn't check answer",
+      errorCatch: error.message,
+    });
+  }
+}
+
+module.exports = { checkAnswer, getSubmission };

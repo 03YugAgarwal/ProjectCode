@@ -29,6 +29,12 @@ const answerSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         index: true
+    },
+    studentid : {
+        type: String
+    },
+    code: {
+        type: String
     }
 })
 

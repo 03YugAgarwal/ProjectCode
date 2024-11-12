@@ -35,7 +35,7 @@ const Assignment = () => {
 
         if (data) {
           setData(data);
-          console.log(data);
+          // console.log(data);
           
         } else {
           setError("No such assignment available");
