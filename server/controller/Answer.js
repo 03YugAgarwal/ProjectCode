@@ -47,18 +47,27 @@ const checkAnswer = async (req, res) => {
       const { run: result } = await executeCode(language, code, input);
 
       const actualOutput = result.output.trim();
+      
       newOutput.push({ input, actualOutput, expectedOutput });
+
+      
 
       if (actualOutput === expectedOutput.trim()) {
         countPassed += 1;
       }
     }
 
+    // console.log(newOutput);
+    
+
     const answer = await Answer.findOneAndUpdate(
         { questionNumber, assignment: assignmentID, student: req.userId },  
         { output: newOutput, countPassed },                                  
         { new: true, upsert: true }                                          
     );
+
+    // console.log(answer);
+    
 
     res.status(200).json(answer);
   } catch (error) {

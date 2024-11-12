@@ -9,7 +9,7 @@ const answerSchema = mongoose.Schema({
             actualOutput: {
                 type: String
             },
-            output: {
+            expectedOutput: {
                 type: String
             }
         }
