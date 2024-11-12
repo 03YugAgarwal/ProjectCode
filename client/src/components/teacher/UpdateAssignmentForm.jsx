@@ -222,7 +222,7 @@ const UpdateAssignmentForm = () => {
             <hr />
             <h3>Question {index + 1}</h3>
             <label>Question Text:</label>
-            <Input
+            <textarea
               type="text"
               value={question.question}
               onChange={(e) => handleInputChange(e, "question", index)}
@@ -245,7 +245,7 @@ const UpdateAssignmentForm = () => {
                   Test Case {testCaseIndex + 1}
                 </h4>
                 <label>Input:</label>
-                <Input
+                <textarea
                   type="text"
                   value={testCase.input}
                   onChange={(e) =>
@@ -253,7 +253,7 @@ const UpdateAssignmentForm = () => {
                   }
                 />
                 <label>Output:</label>
-                <Input
+                <textarea
                   type="text"
                   value={testCase.output}
                   onChange={(e) =>

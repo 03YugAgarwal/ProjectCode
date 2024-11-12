@@ -173,18 +173,31 @@ const updateAssignment = async (req, res) => {
       });
     }
 
-    const {_id, title, course, type, codes, question, startBy, submitBy, isOver } = req.body;
+    const { _id, title, course, type, question, startBy, submitBy, isOver } = req.body;
 
+    // Prepare the base data for updating
     const updateData = {
       ...(title && { title }),
       ...(course && { course }),
       ...(type && { type }),
-      ...(codes !== undefined && { numberOfCodes: codes }), // Allow updating to 0 if needed
-      ...(question && { question }),
       ...(startBy && { startBy }),
       ...(submitBy && { submitBy }),
-      ...(isOver !== undefined && { isOver }), // Allow updating isOver to true or false
+      ...(isOver !== undefined && { isOver }),
     };
+
+    // If question is provided, update question and adjust numberOfCodes based on its length
+    if (question) {
+      updateData.question = question.map(q => ({
+        number: q.number,
+        question: q.question,
+        numberOfTestCases: q.numberOfTestCases,
+        testCases: q.testCases.map(tc => ({
+          input: tc.input,
+          output: tc.output,
+        }))
+      }));
+      updateData.numberOfCodes = question.length; // Set numberOfCodes to match question array length
+    }
 
     const updatedAssignment = await Assignment.findByIdAndUpdate(_id, updateData, {
       new: true,
@@ -208,6 +221,8 @@ const updateAssignment = async (req, res) => {
     });
   }
 };
+
+
 
 const getAssignmentById = async (req,res) => {
   try{
