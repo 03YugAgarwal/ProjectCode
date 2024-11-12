@@ -1,0 +1,105 @@
+.container{
+    display: flex;
+    flex-direction: column;
+
+    padding: 32px;
+}
+
+.container h1 {
+    font-size: 1.8em;
+    color: rgb(54, 54, 54);
+}
+
+.container > p{
+    font-size: 0.8em;
+    font-weight: 500;
+    color: rgb(54, 54, 54);
+}
+
+.button {
+    background-color: #f6f6f6;
+    color: black;
+
+    padding: 8px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+
+    border-radius: 8px;
+    border: 1px solid #cfcfcf;
+
+    transition-duration: 0.4s;
+}
+
+.button:hover {
+    background-color: white;
+    color: black;
+}
+
+.glow{
+    background-color: white;
+    border-color: black;
+}
+
+.question{
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #cfcfcf;
+    background-color: white;
+}
+
+.selectContainer{
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+
+    margin: 16px 0;
+
+}
+
+.selectContainer > select {
+    margin-left: 8px;
+    padding: 8px 16px;
+
+    border-radius: 8px;
+    border: 1px solid #cfcfcf;
+    background-color: #ffffff;
+    color: black;
+}
+
+.output{
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #cfcfcf;
+    background-color: white;
+}
+
+.testCases{
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #cfcfcf;
+    background-color: white;
+}
+
+.passed{
+    border-color: green;
+}
+
+.failed{
+    border-color: red;
+}
+
+.summary > h3 {
+    font-size: 1.2em;
+    color: rgb(54, 54, 54);
+
+    margin: 16px 0;
+}

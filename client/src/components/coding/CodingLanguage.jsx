@@ -2,11 +2,13 @@ import {LANGUAGE_VERSIONS} from "../../constants"
 
 const languages = Object.entries(LANGUAGE_VERSIONS)
 
+import styles from './Assignment.module.css'
+
 const CodingLanguage = ({language,onSelect}) => {
     // console.log(languages);
     
   return (
-    <>
+    <div className={styles.selectContainer}>
       <option value=""></option>
       <span>Language: </span>
       <select name="language">
@@ -18,7 +20,7 @@ const CodingLanguage = ({language,onSelect}) => {
             })
         }
       </select>
-    </>
+    </div>
   );
 };
 

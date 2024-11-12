@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 import { BASE_URL } from "../../constants";
 import CodingHome from "./CodingHome";
 
+import styles from './Assignment.module.css'
+
 const Assignment = () => {
   const params = useParams();
   const [loading, setLoading] = useState(true);
@@ -57,22 +59,29 @@ const Assignment = () => {
     return <p>{error}</p>;
   }
 
+  const formatDate = (date) => {
+    if (!date) return "--";
+    const formattedDate = new Date(date);
+    return formattedDate.toLocaleString();
+  };
+
   const handleQuestionClick = (questionNumber) => {
     setSelectedQuestion(questionNumber);
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <h1>{data?.title}</h1>
-      <h3>{data?.description || null}</h3>
-      <p>Number of questions: {data?.numberOfCodes}</p>
-      <p>Due Date: {data?.submitBy || "-- : --"}</p>
+      {/* <h3>{data?.description || null}</h3> */}
+      {/* <p>Number of questions: {data?.numberOfCodes}</p> */}
+      <p>Due Date: { formatDate(data?.submitBy) || "-- : --"}</p>
 
       <div>
         {Array.from({ length: data?.numberOfCodes || 0 }, (_, index) => (
           <button
             key={index + 1}
             onClick={() => handleQuestionClick(index + 1)}
+            className={`${styles.button} ${selectedQuestion === (index+1) ? styles.glow : ''}`}
           >
             {index + 1}
           </button>
@@ -82,7 +91,7 @@ const Assignment = () => {
       {selectedQuestion && (
         <CodingHome key={selectedQuestion} data={data} questionNumber={selectedQuestion} />
       )}
-    </>
+    </div>
   );
 };
 
