@@ -29,6 +29,8 @@ const AssignmentRoute = require('./routes/AssignmentRoute')
 app.use('/student', AssignmentRoute);
 const AnswerRoute = require('./routes/AnswerRoute')
 app.use('/answer',AnswerRoute)
+const ResetRoute = require('./routes/ResetPasswordRoute')
+app.use('/reset', ResetRoute)
 
 app.listen(process.env.PORT || 3000, ()=>{
     console.log(`Server started on http://localhost:${process.env.PORT || 3000}`);
