@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { BASE_URL } from "../../constants";
 import Cookies from 'js-cookie';
 import AssignmentCardTeacher from "../Layout/AssignmentCardTeacher";
+
+import { AuthContext } from "../../context/AuthContext";
 
 import styles from './UpdatePage.module.css'
 
@@ -10,6 +12,8 @@ const UpdatePage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const token = Cookies.get('user_token');
+
+    const {refetchAssignment} = useContext(AuthContext)
 
     useEffect(() => {
         const fetchAssignments = async () => {
@@ -33,7 +37,7 @@ const UpdatePage = () => {
         };
 
         fetchAssignments();
-    }, [token]);
+    }, [token, refetchAssignment]);
 
     return (
         <div className={styles.updatePage}>

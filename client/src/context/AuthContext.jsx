@@ -8,6 +8,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const [refetchAssignment, setRefetchAssignment] = useState(false)
 
   const checkToken = async () => {
     const token = Cookies.get("user_token");
@@ -60,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userRole, login, logout, checkToken }}>
+    <AuthContext.Provider value={{ isLoggedIn, userRole, login, logout, checkToken, refetchAssignment, setRefetchAssignment }}>
       {children}
     </AuthContext.Provider>
   );

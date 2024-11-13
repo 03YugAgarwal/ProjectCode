@@ -288,6 +288,29 @@ const getAssignmentForTeacherByAssignmentid = async(req,res) => {
   }
 }
 
+const deleteAssignment = async(req,res) => {
+  try{
+    const {id} = req.params
+    const role = req.role
+
+    if(!role.includes(1)){
+      return res.status(401).json({error: "Not authorized", message: "Not authorized to perform this action"})
+    }
+
+    const assignment = await Assignment.findByIdAndDelete(id)
+
+    res.status(200).json({message: "Deleted Successfully"})
+
+
+  }catch(error){
+    return res.status(500).json({
+      error: "Internal Server Error",
+      message: "Couldn't Delete Assignment",
+      errorCatch: error.message
+    })
+  }
+}
+
 
 module.exports = {
   getAssignmentForStudentByID,
@@ -296,5 +319,6 @@ module.exports = {
   getAssignmentById,
   getAssignmentForTeacherByID,
   getAssignmentForTeacherByAssignmentid,
-  updateAssignment
+  updateAssignment,
+  deleteAssignment
 };

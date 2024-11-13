@@ -8,7 +8,8 @@ const {
   getAssignmentById,
   getAssignmentForTeacherByID,
   getAssignmentForTeacherByAssignmentid,
-  updateAssignment
+  updateAssignment,
+  deleteAssignment
 } = require("../controller/Assignment");
 
 router.get("/:id", getAssignmentForStudentByID);
@@ -18,5 +19,6 @@ router.put("/update", updateAssignment);
 router.get("/assignment/:id", getAssignmentById);
 router.get("/teacher/get", getAssignmentForTeacherByID);
 router.get("/teacher/get/:id", getAssignmentForTeacherByAssignmentid);
+router.delete("/delete/:id",deleteAssignment)
 
 module.exports = router;
