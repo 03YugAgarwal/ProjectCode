@@ -13,4 +13,11 @@
 
     border-radius: 8px;
     border: 1px solid #cfcfcf;
+
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.button:hover{
+    background-color: white;
+    border-color: rgb(53, 53, 53);
 }

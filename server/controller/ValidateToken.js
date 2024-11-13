@@ -10,8 +10,8 @@ async function ValidateToken(req, res) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    const admin = await Admin.findOne({adminid: decoded.userId})
-
+    const admin = await Admin.findById(decoded.userId)
+    
     if(admin){
       return res.status(200).json({role: [0,1,2]})
     }

@@ -29,8 +29,17 @@ const Navbar = () => {
 
   let content = null;
 
+  if(userRole?.includes(0) && !userRole?.includes(1)){
+    content = <Button>Reset Password</Button>
+  }
+
   if (userRole?.includes(1) && !userRole?.includes(2)) {
-    content = <Button onClick={handleCreateClick}>Create Assignment</Button>;
+    content = (
+      <>
+        <Button>Reset Password</Button>
+        <Button onClick={handleCreateClick}>Create Assignment</Button>
+      </>
+    );
   }
 
   return (

@@ -2,7 +2,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 16px;  
+    padding: 16px 16px 8px 16px;  
+}
+
+.nav2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 16px;  
 }
 
 .glow{
