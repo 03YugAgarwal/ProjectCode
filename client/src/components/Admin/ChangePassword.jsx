@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 import styles from './ResetPasswordAdmin.module.css';
 
-const ChangePassword = () => {
+const ChangePassword = (props) => {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -28,7 +28,7 @@ const ChangePassword = () => {
         setSuccess(false);
 
         try {
-            const response = await fetch(`${BASE_URL}/reset/admin`, {
+            const response = await fetch(`${BASE_URL}/reset/${props.type}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

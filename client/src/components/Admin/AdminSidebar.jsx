@@ -22,7 +22,7 @@ const AdminSidebar = () => {
       if(type === 'other'){
         setContent(<ResetPasswordAdmin />)
       }else{
-        setContent(<ChangePassword />)
+        setContent(<ChangePassword type="admin" />)
       }
 
       setIsOpen(true)
