@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import AssignmentCard from "../Layout/AssignmentCard";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../../constants";
-
 import styles from "./StudentHome.module.css";
 
 const StudentHome = () => {
@@ -67,7 +66,21 @@ const StudentHome = () => {
         }
 
         const data = await response.json();
-        setAssignments(data);
+        
+        // Get current IST date and time
+        const currentISTTime = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+        
+        // Filter assignments based on `isOver` and `submitBy` criteria
+        const filteredAssignments = data.filter((assignment) => {
+          if (assignment.isOver) return false;
+          if (assignment.submitBy) {
+            const submitByDate = new Date(assignment.submitBy);
+            return submitByDate > currentISTTime;
+          }
+          return true; // Include assignments without `submitBy`
+        });
+
+        setAssignments(filteredAssignments);
       } catch (error) {
         console.error("Error fetching assignments:", error);
         setError("Error fetching assignments. Please try again later.");

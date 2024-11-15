@@ -158,7 +158,7 @@ const TeacherAssignmentForm = () => {
             <option value="home">Home Work</option>
           </select>
         </div>
-        <label htmlFor="codes">Number of codes</label>
+        <label htmlFor="codes">Number of Questions</label>
         <input
           type="number"
           value={codes}
